@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "src": "/menu/1.jpg",
+    "name": "브리스킷 바비Q",
+    "amount": 2
+  },
+  {
+    "id": 2,
+    "src": "/menu/2.jpg",
+    "name": "치즈 크레이프 샌드",
+    "amount": 3
+  }
+]

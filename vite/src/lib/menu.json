@@ -1,0 +1,158 @@
+[
+  {
+    "id": 1,
+    "src": "/menu/1.jpg",
+    "name": "브리스킷 바비Q",
+    "type": 1
+  },
+  {
+    "id": 2,
+    "src": "/menu/2.jpg",
+    "name": "치즈 크레이프 샌드",
+    "type": 1
+  },
+  {
+    "id": 3,
+    "src": "/menu/3.jpg",
+    "name": "아보카도 새우",
+    "type": 1
+  },
+  {
+    "id": 4,
+    "src": "/menu/4.jpg",
+    "name": "와일드 와일드 웨스트 스테이크",
+    "type": 1
+  },
+  {
+    "id": 5,
+    "src": "/menu/5.jpg",
+    "name": "블랙타이거 슈림프",
+    "type": 1
+  },
+  {
+    "id": 6,
+    "src": "/menu/6.jpg",
+    "name": "블록버스터4",
+    "type": 1
+  },
+  {
+    "id": 7,
+    "src": "/menu/7.jpg",
+    "name": "베스트 콰트로",
+    "type": 1
+  },
+  {
+    "id": 8,
+    "src": "/menu/8.jpg",
+    "name": "포테이토",
+    "type": 1
+  },
+  {
+    "id": 9,
+    "src": "/menu/9.jpg",
+    "name": "뉴욕 오리진",
+    "type": 1
+  },
+  {
+    "id": 10,
+    "src": "/menu/10.jpg",
+    "name": "리얼불고기",
+    "type": 1
+  },
+  {
+    "id": 11,
+    "src": "/menu/11.jpg",
+    "name": "우리 고구마",
+    "type": 1
+  },
+  {
+    "id": 12,
+    "src": "/menu/12.jpg",
+    "name": "슈퍼디럭스",
+    "type": 1
+  },
+  {
+    "id": 13,
+    "src": "/menu/13.jpg",
+    "name": "슈퍼슈프림",
+    "type": 1
+  },
+  {
+    "id": 14,
+    "src": "/menu/14.jpg",
+    "name": "베이컨체더치즈",
+    "type": 1
+  },
+  {
+    "id": 15,
+    "src": "/menu/15.jpg",
+    "name": "페퍼로니",
+    "type": 1
+  },
+  {
+    "id": 16,
+    "src": "/menu/16.jpg",
+    "name": "치즈",
+    "type": 1
+  },
+  {
+    "id": 17,
+    "src": "/menu/17.jpg",
+    "name": "하프&하프 스파게티 (NEW 치즈&베이컨 까르보나라)",
+    "type": 2
+  },
+  {
+    "id": 18,
+    "src": "/menu/18.jpg",
+    "name": "베이컨 까르보나라 스파게티",
+    "type": 2
+  },
+  {
+    "id": 19,
+    "src": "/menu/19.jpg",
+    "name": "NEW 치즈 볼로네즈 스파게티",
+    "type": 2
+  },
+  {
+    "id": 20,
+    "src": "/menu/20.jpg",
+    "name": "도미노 코울슬로",
+    "type": 2
+  },
+  {
+    "id": 21,
+    "src": "/menu/21.jpg",
+    "name": "코카콜라 1.25L",
+    "type": 3
+  },
+  {
+    "id": 22,
+    "src": "/menu/22.jpg",
+    "name": "코카콜라 500ml",
+    "type": 3
+  },
+  {
+    "id": 23,
+    "src": "/menu/23.jpg",
+    "name": "코카콜라 제로 1.25L",
+    "type": 3
+  },
+  {
+    "id": 24,
+    "src": "/menu/24.jpg",
+    "name": "코카콜라 제로 500ml",
+    "type": 3
+  },
+  {
+    "id": 25,
+    "src": "/menu/25.jpg",
+    "name": "스프라이트 1.5L",
+    "type": 3
+  },
+  {
+    "id": 26,
+    "src": "/menu/26.jpg",
+    "name": "스프라이트 500ml",
+    "type": 3
+  }
+]

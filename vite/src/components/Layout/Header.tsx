@@ -23,7 +23,7 @@ const Header = () => {
       <nav
         className={`header bg-transparent w-full fixed top-0 left-0 ${
           scrolled && "header-scrolled font-bold "
-        } duration-150 z-50`}
+        } duration-150 z-50 bg-white border-b border-[#121212]/[0.08]`}
       >
         <div
           className={`flex justify-between items-center h-[100px] text-[20px] font-[400] px-16 mx-auto  `}
@@ -31,7 +31,7 @@ const Header = () => {
           <div className="flex text-default-color max-h-[100px]  overflow-hidden ">
             <img
               className="w-[200px] max-h-[100px] object-cover cursor-pointer mr-8 mb-1"
-              src="pizza_logo.png"
+              src="/pizza_logo.png"
               onClick={() => navigate("/")}
             />
 
@@ -49,13 +49,13 @@ const Header = () => {
             </button>
             <button
               className="px-[30px] font-[700]"
-              onClick={() => navigate("/menu")}
+              onClick={() => navigate("/search")}
             >
               주문
             </button>
           </div>
           <div className="flex gap-[30px] text-default-color">
-            <button className="">
+            <button className="" onClick={() => navigate("/cart")}>
               <SlBasket size={30} />
             </button>
             <button className="flex items-center gap-2 border-2 rounded-md p-2 bg-gray-400">

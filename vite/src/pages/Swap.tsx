@@ -1,6 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import SwapWidget from "../components/SwapWidget";
-
+import SwapWidget from "../components/Swap/SwapWidget";
 function Swap() {
   const { signer, provider, setSigner } = useOutletContext<OutletContext>();
 

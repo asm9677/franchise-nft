@@ -32,9 +32,9 @@
   height: 12px;
 }
 
-.header-scrolled {
-  @apply bg-white border-b border-[#121212]/[0.08];
-}
+/* .header-scrolled {
+  @apply;
+} */
 
 @font-face {
   font-family: "S-CoreDream-3Light";
@@ -67,6 +67,7 @@ body {
     no-repeat;
   padding: 15px 10px;
 }
+
 .overlaybox div,
 ul {
   overflow: hidden;

@@ -5,6 +5,7 @@ export default {
     extend: {
       boxShadow: {
         "token-button": "0 0 10px 0 rgba(34, 34, 34, 0.04)",
+        top: "0px -4px 16px 0px rgba(0, 0, 0, .1);",
       },
       borderColor: {
         "token-button": "rgba(34, 34, 34, 0.07)",
