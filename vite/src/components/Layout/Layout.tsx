@@ -2,10 +2,12 @@ import { FC, useEffect, useState } from "react";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import { ethers } from "ethers";
+import { JsonRpcSigner } from "ethers";
+import { BrowserProvider } from "ethers";
 
 const Layout: FC = () => {
-  const [signer, setSigner] = useState<ethers.JsonRpcSigner>();
-  const [provider, setProvider] = useState<ethers.BrowserProvider>();
+  const [signer, setSigner] = useState<JsonRpcSigner>();
+  const [provider, setProvider] = useState<BrowserProvider>();
 
   const [myLatitude, setMyLatitude] = useState<number>(37.5709908);
   const [myLongitude, setMyLongitude] = useState<number>(126.9789309);
@@ -18,7 +20,12 @@ const Layout: FC = () => {
 
   return (
     <div className="">
-      <Header />
+      <Header
+        signer={signer}
+        setSigner={setSigner}
+        provider={provider}
+        setProvider={setProvider}
+      />
       <div className="zzz">
         <Outlet
           context={{

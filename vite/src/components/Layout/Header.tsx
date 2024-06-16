@@ -1,12 +1,26 @@
-import { useEffect, useState } from "react";
-import { CiWallet } from "react-icons/ci";
+import { JsonRpcSigner } from "ethers";
+import { BrowserProvider } from "ethers";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { MdOutlineAccountCircle, MdOutlineWallet } from "react-icons/md";
 import { SlBasket } from "react-icons/sl";
-import { VscAccount } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  signer: JsonRpcSigner | undefined;
+  setSigner: Dispatch<SetStateAction<JsonRpcSigner | undefined>>;
+  provider: BrowserProvider | undefined;
+  setProvider: Dispatch<SetStateAction<BrowserProvider | undefined>>;
+}
+
+const Header: FC<HeaderProps> = ({
+  signer,
+  setSigner,
+  provider,
+  setProvider,
+}) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+  const [buttonMessage, setButtonMessage] = useState("Login");
 
   const handleScroll = () => {
     setScrolled(window.scrollY > 0);
@@ -16,7 +30,31 @@ const Header = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  });
+  }, []);
+
+  useEffect(() => {
+    if (!window.ethereum) return;
+    setProvider(new BrowserProvider(window.ethereum));
+  }, []);
+
+  useEffect(() => {
+    if (!provider) return;
+    console.log(provider);
+  }, [provider]);
+
+  useEffect(() => {
+    if (!signer) {
+      setButtonMessage("Login");
+    } else {
+      setButtonMessage(
+        `${signer.address.substring(0, 7)}...${signer.address.substring(
+          signer.address.length - 5
+        )}`
+      );
+    }
+
+    console.log(signer);
+  }, [signer]);
 
   return (
     <>
@@ -54,13 +92,27 @@ const Header = () => {
               주문
             </button>
           </div>
-          <div className="flex gap-[30px] text-default-color">
-            <button className="" onClick={() => navigate("/cart")}>
-              <SlBasket size={30} />
+          <div className="flex gap-3 text-default-color">
+            <button
+              className="flex items-center gap-3 rounded-[12px] px-3 bg-default-color/10 hover:bg-default-color/15"
+              onClick={() => !signer && provider?.getSigner().then(setSigner)}
+            >
+              <MdOutlineWallet size={24} />
+              <span className="text-[16px] h-6 font-[900] leading-3 flex items-center">
+                {buttonMessage}
+              </span>
             </button>
-            <button className="flex items-center gap-2 border-2 rounded-md p-2 bg-gray-400">
-              <CiWallet size={20} />
-              <span className="text-[14px] font-bold">Connect</span>
+            <button
+              className="bg-default-color/10 hover:bg-default-color/15 rounded-[12px] p-3"
+              onClick={() => navigate("/cart")}
+            >
+              <SlBasket size={24} />
+            </button>
+            <button
+              className="bg-default-color/10 hover:bg-default-color/15 rounded-[12px] p-3"
+              onClick={() => navigate("/account")}
+            >
+              <MdOutlineAccountCircle size={24} />
             </button>
           </div>
         </div>

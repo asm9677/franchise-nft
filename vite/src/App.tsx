@@ -8,6 +8,7 @@ import MarketDetail from "./pages/MarketDetail";
 import SearchStore from "./pages/SearchStore";
 import Menu from "./pages/Menu";
 import CartView from "./pages/CartView";
+import Account from "./pages/Account";
 
 const App: FC = () => {
   return (
@@ -23,6 +24,9 @@ const App: FC = () => {
           <Route path="/menu/:tokenId/" element={<Menu />} />
           <Route path="/menu/:tokenId/:menuId" element={<Menu />} />
           <Route path="/cart" element={<CartView />} />
+          <Route path="/account" element={<Account />}>
+            <Route path="/account/:address" element={<Account />}></Route>
+          </Route>
         </Route>
 
         {/* <Route path="*" element={<NotFound />} /> */}

@@ -12,10 +12,10 @@ function CartView() {
   return (
     <div className="min-h-screen flex justify-center ">
       <div className="mt-[120px] max-w-[1200px] w-full flex flex-col ">
-        <h1 className="text-[30px] mb-10 pb-6 border-b border-[#E2E2E2] text-[#545454]">
+        <h1 className="text-[30px] mb-10 pb-6 border-b border-[#E2E2E2] text-[#121212]">
           장바구니
         </h1>
-        <h2 className="text-[20px] mb-6 font-semibold  text-[#545454]">
+        <h2 className="text-[20px] mb-6 font-semibold  text-[#121212]">
           수령정보
         </h2>
         <div className="flex flex-col gap-4 border border-[#E2E2E2] rounded-[10px] py-8 px-10 w-full text-[#333333] text-[14px] font-[600]">
@@ -33,7 +33,7 @@ function CartView() {
             </button>
           </div>
         </div>
-        <h2 className="text-[20px] mt-10 mb-6 font-semibold  text-[#545454]">
+        <h2 className="text-[20px] mt-10 mb-6 font-semibold  text-[#121212]">
           주문상품
         </h2>
         <div className="grid grid-cols-1 gap-2 border border-[#E2E2E2] rounded-[10px] py-4 px-4 mb-32">

@@ -16,7 +16,7 @@ contract Order is Ownable {
 
     AggregatorV3Interface internal ethPriceFeed;
 
-    IUniswapV2Router public uniswapV2Router;
+    IUniswapV2Router02 public uniswapV2Router;
 
     Franchise public franchise;
     Pizza public pizza;
@@ -35,7 +35,7 @@ contract Order is Ownable {
 
     constructor() Ownable(_msgSender()) {
         ethPriceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306); //sepolia address
-        uniswapV2Router = IUniswapV2Router(0x86dcd3293C53Cf8EFd7303B57beb2a3F671dDE98); //sepolia address
+        uniswapV2Router = IUniswapV2Router02(0x86dcd3293C53Cf8EFd7303B57beb2a3F671dDE98); //sepolia address
 
         addMenu("potato", 20 * (10 ** 8));
         addMenu("pepperoni", 20 * (10 ** 8));
