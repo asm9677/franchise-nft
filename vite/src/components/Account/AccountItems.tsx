@@ -63,13 +63,15 @@ const AccountItems: FC<AccountItemsProps> = ({
       </div>
       {/* opacity: 1; pointer-events: auto; transition: opacity 0.3s ease-in-out 0s;
       background-color: rgba(0, 0, 0, 0.8); */}
-      <Modal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        nft={selectedItem}
-        nftContract={nftContract}
-        marketContract={marketContract}
-      />
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          nft={selectedItem}
+          nftContract={nftContract}
+          marketContract={marketContract}
+        />
+      )}
     </div>
   );
 };

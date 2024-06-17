@@ -11,6 +11,8 @@ interface OutletContext {
   myLongitude: number;
   setMyLatitude: Dispatch<SetStateAction<number | undefined>>;
   setMyLongitude: Dispatch<SetStateAction<number | undefined>>;
+  marketContract: Contract;
+  nftContract: Contract;
 }
 
 interface Address {
@@ -27,4 +29,14 @@ interface NftData {
   id: number;
   price?: BigNumberish;
   amount?: number;
+}
+
+interface Item {
+  listingId?: number;
+  seller: string;
+  tokenId: number;
+  price: BigNumberish;
+  amount: number;
+  timestamp: number;
+  sold: boolean;
 }

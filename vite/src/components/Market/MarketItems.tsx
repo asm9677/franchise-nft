@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import MarketCard from "./MarketCard";
 import NavCollection from "../NavCollection";
@@ -6,6 +6,7 @@ import MarketItemMenu from "./MarketItemMenu";
 
 import store from "../../lib/address.json";
 import { Contract } from "ethers";
+import { useOutletContext } from "react-router-dom";
 
 const MarketItems: FC = () => {
   const [sortOpen, setSortOpen] = useState(false);
@@ -18,6 +19,32 @@ const MarketItems: FC = () => {
   );
 
   const [checkedCount, setCheckedCount] = useState<number>(0);
+  const [soldIds, setSoldIds] = useState<number[]>([]);
+  const [listingIds, setListingIds] = useState<number[]>([]);
+
+  const [soldItems, setSoldItems] = useState<Item[]>([]);
+  const [listingItems, setListingItems] = useState<Item[]>([]);
+
+  const { provider, marketContract, nftContract } =
+    useOutletContext<OutletContext>();
+
+  useEffect(() => {
+    if (!marketContract) return;
+    marketContract.getSoldIds().then(setSoldIds);
+    marketContract.getListingIds().then(setListingIds);
+  }, marketContract);
+
+  useEffect(() => {
+    Promise.all(
+      listingIds.map(async (v) => await marketContract.getListingItem(v))
+    ).then(setListingItems);
+  }, [listingIds]);
+
+  useEffect(() => {
+    Promise.all(
+      soldIds.map(async (v) => await marketContract.getListingItem(v))
+    ).then(setSoldItems);
+  }, [soldIds]);
 
   return (
     <div className="w-full ">
@@ -47,6 +74,8 @@ const MarketItems: FC = () => {
                 key={i}
                 market={v}
                 checked={checkList[i] || checkedCount === 0}
+                soldItems={soldItems}
+                listingItems={listingItems}
               />
             ))}
           </div>

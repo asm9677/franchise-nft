@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract NftMarket is Ownable{
     struct Item {
         address seller;
+        address buyer;
         uint tokenId;
         uint price;
         uint amount;
@@ -18,7 +19,7 @@ contract NftMarket is Ownable{
     
     mapping(uint => Item) listingItems;
     uint[] listingIds;
-    Item[] soldItems;
+    uint[] soldIds;
 
     uint listingCount = 0;
 
@@ -50,22 +51,10 @@ contract NftMarket is Ownable{
  
         listingCount++;
         listingIds.push(listingCount);
-        listingItems[listingCount] = Item(msg.sender, _tokenId, _price, _amount, block.timestamp, false);
+        listingItems[listingCount] = Item(msg.sender, address(0), _tokenId, _price, _amount, block.timestamp, false);
     }
 
-    function removeListing(uint _listingId) public {
-        require(msg.sender == listingItems[_listingId].seller, "Caller is not seller");
-        
-        listingItems[_listingId].sold = true;
-
-        for(uint i = 0; i < listingIds.length; i++) {
-            if(listingIds[i] == _listingId) {
-                listingIds[i] = listingIds[listingIds.length - 1];
-                listingIds.pop();
-                break;
-            }
-        }
-    }
+    
 
     function getListingIds() public view returns (uint[] memory) {
         return listingIds;
@@ -75,19 +64,7 @@ contract NftMarket is Ownable{
         return listingItems[_listingId];
     } 
 
-    function purchase(uint _listingId) public payable {
-        require(msg.sender != listingItems[_listingId].seller , "Caller is seller.");
-        require(msg.value >= listingItems[_listingId].price, "Caller sent lower than price.");
-        require(listingItems[_listingId].price > 0, "Token is not sale.");
-
-        payable(listingItems[_listingId].seller).transfer(listingItems[_listingId].price);
-        if(msg.value > listingItems[_listingId].price)
-            payable(msg.sender).transfer(msg.value - listingItems[_listingId].price);
-            NftContract.safeTransferFrom(listingItems[_listingId].seller, msg.sender, listingItems[_listingId].tokenId, listingItems[_listingId].amount, "");
-
-        soldItems.push(listingItems[_listingId]);
-        removeListing(_listingId);
-    }
+    
 
     function getTokenPrice(uint _listingId) public view returns(uint) {
         return listingItems[_listingId].price;
@@ -100,13 +77,42 @@ contract NftMarket is Ownable{
         return tokenPrice;
     }
 
-    function multiPurchase(uint[] memory _listingIds) public payable {
-        require(getTokenPriceAll(_listingIds) >= msg.value, "Caller sent lower than price.");
-        for(uint i = 0; i < _listingIds.length; i++)
-            purchase(_listingIds[i]);
+    function removeListing(uint _listingId) private {       
+        for(uint i = 0; i < listingIds.length; i++) {
+            if(listingIds[i] == _listingId) {
+                listingIds[i] = listingIds[listingIds.length - 1];
+                listingIds.pop();
+                break;
+            }
+        }
     }
 
-    function getSoldItems() public view returns(Item[] memory){
-        return soldItems;
+    function purchase(uint _listingId, bool refund) public payable {
+        require(msg.sender != listingItems[_listingId].seller , "Caller is seller.");
+        require(msg.value >= listingItems[_listingId].price, "Caller sent lower than price.");
+        require(listingItems[_listingId].price > 0 && listingItems[_listingId].sold == false, "Token is not sale.");
+
+        payable(listingItems[_listingId].seller).transfer(listingItems[_listingId].price);
+        if(msg.value > listingItems[_listingId].price && refund)
+            payable(msg.sender).transfer(msg.value - listingItems[_listingId].price);
+        NftContract.safeTransferFrom(listingItems[_listingId].seller, msg.sender, listingItems[_listingId].tokenId, listingItems[_listingId].amount, "");
+
+        listingItems[_listingId].sold = true;
+        listingItems[_listingId].buyer = msg.sender;
+        soldIds.push(_listingId);
+        removeListing(_listingId);
+    }
+
+    function multiPurchase(uint[] memory _listingIds) public payable {
+        uint tokensPrice = getTokenPriceAll(_listingIds);
+        require(tokensPrice >= msg.value, "Caller sent lower than price...");
+        for(uint i = 0; i < _listingIds.length; i++)
+            purchase(_listingIds[i], false);
+        if(msg.value > tokensPrice)
+            payable(msg.sender).transfer(msg.value - tokensPrice);
+    }
+
+    function getSoldIds() public view returns(uint[] memory){
+        return soldIds;
     }
 }

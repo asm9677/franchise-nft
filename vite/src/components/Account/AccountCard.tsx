@@ -46,7 +46,9 @@ const AccountCard: FC<AccountCardProps> = ({
       onClick={() => navigate("/market/1")}
     >
       <div className="relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-fit bg-[#F7F8FF] -z-10"></div>
+        <div className="absolute top-2 right-2 bg-[#9f9f9f]/[0.4] rounded-[8px] z-20 text-white p-[6px]">
+          x{balance.toString()}
+        </div>
         <img
           src="/nft.png"
           className={`${

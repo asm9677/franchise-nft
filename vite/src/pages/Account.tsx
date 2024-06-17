@@ -33,6 +33,10 @@ function Account() {
     }
   }, [signer, provider]);
 
+  useEffect(() => {
+    console.log(nftContract?.runner);
+  }, [nftContract]);
+
   const [tab, setTab] = useState(0);
   return (
     <section className=" h-[100vh] flex flex-col mt-[100px] w-full  px-16 bg-white">
