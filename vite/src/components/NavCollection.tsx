@@ -13,6 +13,8 @@ interface NavCollectionProps {
   setSortOpen: Dispatch<SetStateAction<boolean>>;
   showType: number;
   setShowType: Dispatch<SetStateAction<number>>;
+  menuOpen: boolean;
+  setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const NavCollection: FC<NavCollectionProps> = ({
@@ -20,12 +22,17 @@ const NavCollection: FC<NavCollectionProps> = ({
   setSortOpen,
   showType,
   setShowType,
+  menuOpen,
+  setMenuOpen,
 }) => {
   //   const { signer, provider, setSigner } = useOutletContext<OutletContext>();
 
   return (
     <div className="h-[72px] flex items-center">
-      <button className="p-3 rounded-[12px] bg-[#F5F5F5] hover:bg-[#ECECEC] mr-4 ml-2">
+      <button
+        className="p-3 rounded-[12px] bg-[#F5F5F5] hover:bg-[#ECECEC] mr-4 ml-2"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
         <MdMenu size={24} />
       </button>
       <div className="flex h-12 grow items-center rounded-xl p-3 text-md border transition duration-200 focus-within:shadow-none focus-within:hover:shadow-none border-[#E2E2E2] hover:border-[#B2B2B2] focus-within:border-[#B2B2B2] focus:outline-none">

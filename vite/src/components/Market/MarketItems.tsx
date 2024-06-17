@@ -1,59 +1,54 @@
 import { FC, useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import {
-  MdKeyboardArrowDown,
-  MdMenu,
-  MdOutlineAutoAwesomeMosaic,
-  MdOutlineGridOn,
-  MdOutlineWindow,
-} from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import MarketCard from "./MarketCard";
 import NavCollection from "../NavCollection";
+import MarketItemMenu from "./MarketItemMenu";
+
+import store from "../../lib/address.json";
 
 const MarketItems: FC = () => {
   const [sortOpen, setSortOpen] = useState(false);
-  const [priceOpen, setPriceOpen] = useState(false);
-  const [locationOpen, setLocationOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
+
   const [showType, setShowType] = useState(0);
+
+  const [checkList, setCheckList] = useState<boolean[]>(
+    store.map((v, _) => false)
+  );
+
+  const [checkedCount, setCheckedCount] = useState<number>(0);
+
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <NavCollection
         sortOpen={sortOpen}
         setSortOpen={setSortOpen}
         showType={showType}
         setShowType={setShowType}
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
       />
-      <div className="flex mt-6 ">
-        <div className="w-[300px]  h-full pr-4">
-          <button
-            className="flex justify-between items-center h-12 px-[10px] w-full font-semibold outline-none hover:bg-[#F5F5F5] rounded-[10px]"
-            onClick={() => setPriceOpen(!priceOpen)}
-          >
-            <span>Price</span>
-            <MdKeyboardArrowDown
-              size={24}
-              className={`duration-200 ${priceOpen && "rotate-180"}`}
-            />{" "}
-          </button>
-          <div className="w-full border-b border-[#ECECEC]"></div>
-          <div className="h-10 px-[10px] w-full font-semibold mt-6 ">
-            Traits
+      <div className="flex mt-6  ">
+        {menuOpen && (
+          <div className="min-w-[300px] max-h-full overflow-y-hidden">
+            <MarketItemMenu
+              checkList={checkList}
+              setCheckList={setCheckList}
+              checkedCount={checkedCount}
+              setCheckedCount={setCheckedCount}
+            />
           </div>
-          <button
-            className="flex justify-between items-center h-12 px-[10px] w-full font-semibold outline-none hover:bg-[#F5F5F5] rounded-[10px]"
-            onClick={() => setLocationOpen(!locationOpen)}
-          >
-            <span>Location</span>
-            <MdKeyboardArrowDown
-              size={24}
-              className={`duration-200 ${locationOpen && "rotate-180"}`}
-            />{" "}
-          </button>
-        </div>
-        <div className="grid grid-cols-6 gap-4 ">
-          {Array.from({ length: 10 }, (v, i) => (
-            <MarketCard key={i} />
-          ))}
+        )}
+        <div>
+          <div className="grid grid-cols-5 gap-4 overflow-y-hidden">
+            {store.map((v, i) => (
+              <MarketCard
+                key={i}
+                market={v}
+                checked={checkList[i] || checkedCount === 0}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

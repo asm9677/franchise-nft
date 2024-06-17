@@ -1,15 +1,22 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MarketCard: FC = () => {
+interface MarketCardProps {
+  market: Address;
+  checked: boolean;
+}
+
+const MarketCard: FC<MarketCardProps> = ({ market, checked }) => {
   const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
+
+  if (!checked) return;
   return (
     <div
       className="rounded-[10px] overflow-hidden shadow-card cursor-pointer"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      onClick={() => navigate("/market/1")}
+      onClick={() => navigate(`/market/${market.id}`)}
     >
       <div className=" overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-full bg-default-color/10 "></div>
@@ -21,7 +28,9 @@ const MarketCard: FC = () => {
         />
       </div>
       <div className="p-4 text-[14px] font-semibold text-[#121212]">
-        <p>Pudgy Penguin #6446</p>
+        <p>
+          {market.title} #{market.id}
+        </p>
         <p className="my-2 h-[20px]">10.29 ETH</p>
         <p className="h-[20px] text-[#545454]">Last sale: 0.05 ETH</p>
       </div>
