@@ -19,7 +19,6 @@ const MarketCard: FC<MarketCardProps> = ({ market, checked }) => {
       onClick={() => navigate(`/market/${market.id}`)}
     >
       <div className=" overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-full bg-default-color/10 "></div>
         <img
           src="/nft.png"
           className={`${

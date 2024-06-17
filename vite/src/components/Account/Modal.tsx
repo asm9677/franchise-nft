@@ -1,12 +1,22 @@
+import { Contract } from "ethers";
 import { FC, useState } from "react";
 import { MdClose, MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  nft?: NftData;
+  nftContract: Contract | null;
+  marketContract: Contract | null;
 }
 
-const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
+const Modal: FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  nft,
+  nftContract,
+  marketContract,
+}) => {
   if (!isOpen) return null;
   const [purchasesCount, setPurchasesCount] = useState<string>("1");
 
@@ -30,7 +40,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div className="flex flex-col grow justify-center">
               <div className="text-[16px] text-[#121212] font-semibold">
-                초록색 슬라임
+                {nft?.name}
               </div>
               <div className="text-[14px] text-[#545454]">Project 3</div>
             </div>

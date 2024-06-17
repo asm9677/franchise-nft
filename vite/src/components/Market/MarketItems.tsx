@@ -5,6 +5,7 @@ import NavCollection from "../NavCollection";
 import MarketItemMenu from "./MarketItemMenu";
 
 import store from "../../lib/address.json";
+import { Contract } from "ethers";
 
 const MarketItems: FC = () => {
   const [sortOpen, setSortOpen] = useState(false);

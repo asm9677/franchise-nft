@@ -21,3 +21,10 @@ interface Address {
   tel: string;
   id: number;
 }
+
+interface NftData {
+  name: string;
+  id: number;
+  price?: BigNumberish;
+  amount?: number;
+}

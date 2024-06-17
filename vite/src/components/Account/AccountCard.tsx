@@ -1,35 +1,77 @@
-import React, { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { BigNumberish } from "ethers";
+import { Contract } from "ethers";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
-const AccountCard: FC = () => {
+interface AccountCardProps {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  nft: NftData;
+  setSelectedItem: Dispatch<SetStateAction<NftData>>;
+  nftContract: Contract | null;
+  address?: string;
+}
+
+const AccountCard: FC<AccountCardProps> = ({
+  setIsModalOpen,
+  nft,
+  setSelectedItem,
+  nftContract,
+  address,
+}) => {
+  const { signer } = useOutletContext<OutletContext>();
   const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
+  const [balance, setBalance] = useState<BigNumberish>(0n);
+
+  useEffect(() => {
+    nftContract?.balanceOf(address, nft.id).then(setBalance);
+  }, [nftContract]);
+
+  useEffect(() => {
+    console.log(balance == 100n);
+  }, [balance]);
+
+  if (balance == 0n) return;
   return (
     <div
-      className="rounded-[10px] overflow-hidden shadow-card cursor-pointer relative pb-10"
+      className="rounded-[10px]  shadow-card cursor-pointer relative pb-10 overflow-hidden"
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={() => navigate("/market/1")}
     >
-      <div className=" overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-full bg-[#F7F8FF]"></div>
+      <div className="relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-fit bg-[#F7F8FF] -z-10"></div>
         <img
           src="/nft.png"
           className={`${
             isHover && "scale-110 "
-          }   w-full h-full object-cover inset-0 duration-200`}
+          }   w-full h-full object-cover inset-0 duration-200 z-10`}
         />
       </div>
       <div className="p-4 text-[14px] font-semibold text-[#121212]">
-        <p>Pudgy Penguin #6446</p>
+        <p>
+          {nft.name} #{nft.id}
+        </p>
         <p className="my-2 h-[20px]">10.29 ETH</p>
         <p className="h-[20px] text-[#545454]">Last sale: 0.05 ETH</p>
       </div>
       <button
-        className={`absolute bg-default-color h-10 bottom-0 left-0 w-full ${
-          isHover ? "-bottom-0" : "-bottom-10"
-        } duration-100 text-white font-semibold text-[14px]`}
-        onClick={(e) => e.stopPropagation()}
+        className={`absolute bg-default-color h-10 left-0 w-full ${
+          isHover ? "bottom-0" : "-bottom-14"
+        } duration-100 text-white font-semibold text-[14px] ${
+          address?.toLowerCase() !== signer?.address?.toLowerCase() && "hidden"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsModalOpen(true);
+          setSelectedItem(nft);
+        }}
       >
         List for sale
       </button>
