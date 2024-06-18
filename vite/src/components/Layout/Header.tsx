@@ -10,6 +10,7 @@ interface HeaderProps {
   setSigner: Dispatch<SetStateAction<JsonRpcSigner | undefined>>;
   provider: BrowserProvider | undefined;
   setProvider: Dispatch<SetStateAction<BrowserProvider | undefined>>;
+  cartList: Cart[];
 }
 
 const Header: FC<HeaderProps> = ({
@@ -17,6 +18,7 @@ const Header: FC<HeaderProps> = ({
   setSigner,
   provider,
   setProvider,
+  cartList,
 }) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);

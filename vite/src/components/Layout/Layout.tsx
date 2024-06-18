@@ -17,6 +17,7 @@ import orderABI from "../../contracts/Order.json";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { MdError } from "react-icons/md";
 
 const Layout: FC = () => {
   const [signer, setSigner] = useState<JsonRpcSigner>();
@@ -29,10 +30,30 @@ const Layout: FC = () => {
   const [nftContract, setNftContract] = useState<Contract | null>();
   const [orderContract, setOrderContract] = useState<Contract | null>();
 
+  const [cartList, setCartList] = useState<Cart[]>([]);
+
+  const addCart = (item: Cart) => {
+    if (cartList.find((v) => v.id == item.id)) {
+      setCartList(
+        cartList.map((v) => {
+          if (v.id == item.id) v.amount += item.amount;
+          return v;
+        })
+      );
+    } else {
+      setCartList([...cartList, item]);
+    }
+  };
+
+  const removeCart = (id: number) => {
+    setCartList(cartList.filter((v) => v.id != id));
+  };
+
   const notify = (text: string) => {
     toast.success(text, {
       position: "bottom-right",
-      autoClose: 5000,
+      autoClose: 3000,
+      icon: <MdError size={24} />,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -69,6 +90,7 @@ const Layout: FC = () => {
         setSigner={setSigner}
         provider={provider}
         setProvider={setProvider}
+        cartList={cartList}
       />
       <div className="">
         <Outlet
@@ -83,6 +105,9 @@ const Layout: FC = () => {
             marketContract,
             nftContract,
             orderContract,
+            addCart,
+            removeCart,
+            cartList,
             notify,
           }}
         />

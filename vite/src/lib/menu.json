@@ -1,6 +1,6 @@
 [
   {
-    "ID": 1,
+    "id": 1,
     "src": "/menu/1.jpg",
     "name": "브리스킷 바비Q",
     "type": 1,
@@ -21,14 +21,14 @@
     "price": 19.99
   },
   {
-    "ID": 4,
+    "id": 4,
     "src": "/menu/4.jpg",
     "name": "와일드 와일드 웨스트 스테이크",
     "type": 1,
     "price": 24.59
   },
   {
-    "ID": 5,
+    "id": 5,
     "src": "/menu/5.jpg",
     "name": "블랙타이거 슈림프",
     "type": 1,
@@ -70,7 +70,7 @@
     "price": 19.99
   },
   {
-    "ID": 11,
+    "id": 11,
     "src": "/menu/11.jpg",
     "name": "우리 고구마",
     "type": 1,
@@ -91,7 +91,7 @@
     "price": 19.99
   },
   {
-    "ID": 14,
+    "id": 14,
     "src": "/menu/14.jpg",
     "name": "베이컨체더치즈",
     "type": 1,
@@ -112,42 +112,42 @@
     "price": 16.99
   },
   {
-    "ID": 17,
+    "id": 17,
     "src": "/menu/17.jpg",
     "name": "하프&하프 스파게티 (NEW 치즈&베이컨 까르보나라)",
     "type": 2,
     "price": 4.99
   },
   {
-    "ID": 18,
+    "id": 18,
     "src": "/menu/18.jpg",
     "name": "베이컨 까르보나라 스파게티",
     "type": 2,
     "price": 4.99
   },
   {
-    "ID": 19,
+    "id": 19,
     "src": "/menu/19.jpg",
     "name": "NEW 치즈 볼로네즈 스파게티",
     "type": 2,
     "price": 4.99
   },
   {
-    "ID": 20,
+    "id": 20,
     "src": "/menu/20.jpg",
     "name": "도미노 코울슬로",
     "type": 2,
     "price": 1.99
   },
   {
-    "ID": 21,
+    "id": 21,
     "src": "/menu/21.jpg",
     "name": "코카콜라 1.25L",
     "type": 3,
     "price": 1.99
   },
   {
-    "ID": 22,
+    "id": 22,
     "src": "/menu/22.jpg",
     "name": "코카콜라 500ml",
     "type": 3,
@@ -161,14 +161,14 @@
     "price": 1.99
   },
   {
-    "ID": 24,
+    "id": 24,
     "src": "/menu/24.jpg",
     "name": "코카콜라 제로 500ml",
     "type": 3,
     "price": 0.99
   },
   {
-    "ID": 25,
+    "id": 25,
     "src": "/menu/25.jpg",
     "name": "스프라이트 1.5L",
     "type": 3,

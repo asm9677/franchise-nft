@@ -14,7 +14,23 @@ interface OutletContext {
   marketContract: Contract;
   nftContract: Contract;
   orderContract: Contract;
+  addCart: (item: Cart) => void;
+  removeCart: (id: number) => void;
+  cartList: Cart[];
   notify: (text: string) => void;
+}
+
+interface Cart {
+  id: number;
+  src: string;
+  name: string;
+  amount: number;
+}
+
+interface Menu {
+  name: string;
+  price: number;
+  id?: number;
 }
 
 interface Address {
