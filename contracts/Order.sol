@@ -13,6 +13,11 @@ contract Order is Ownable {
         uint price;
     }
 
+    struct Reward {
+        uint price;
+        uint timestamp;
+    }
+
     AggregatorV3Interface internal ethPriceFeed;
 
     IUniswapV2Router02 public uniswapV2Router;
@@ -24,7 +29,7 @@ contract Order is Ownable {
 
     mapping(uint => address) public storeOwnerAddress;
     mapping(uint => uint) public reward;
-    mapping(uint => uint[]) public rewardHistory;
+    mapping(uint => Reward[]) public rewardHistory;
     mapping(uint => uint) public latestTimestamp;
 
     mapping(uint => Menu) public menu;
@@ -125,7 +130,7 @@ contract Order is Ownable {
         for(uint i = 0; i < ownerList.length; i++) {
             pizza.transfer(ownerList[i], reward[_tokenId] * franchise.balanceOf(ownerList[i],_tokenId) / 100);
         }
-        rewardHistory[_tokenId].push(reward[_tokenId]);
+        rewardHistory[_tokenId].push(getReward(reward[_tokenId]));
         reward[_tokenId] = 0;
         latestTimestamp[_tokenId] = block.timestamp;
     }
@@ -149,7 +154,7 @@ contract Order is Ownable {
         uint ethPrice = uint(getETHPrice());
         uint usdPrice = 10**18 / (ethPrice / 10**8);
         
-        uint amountOut = usdPrice * (menu[_menuId].price / 10 ** usdDecimal); 
+        uint amountOut = usdPrice * menu[_menuId].price / 10 ** usdDecimal; 
 
         address[] memory path = new address[](2);
         path[0] = PizzaContractAddress;
@@ -168,6 +173,15 @@ contract Order is Ownable {
         }
 
         return totalPrice;
+    }
+
+    function getReward(uint amount) public view returns(Reward memory) {
+        address[] memory path = new address[](2);
+        path[0] = PizzaContractAddress;
+        path[1] = 0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9;
+        uint[] memory amounts = uniswapV2Router.getAmountsOut(amount, path);
+
+        return Reward(amounts[1], block.timestamp);
     }
 
     function order(uint _menuId, uint _tokenId) public checkMenu(_menuId) {
@@ -200,7 +214,7 @@ contract Order is Ownable {
         reward[_tokenId] += price * 50 / 1000;
     }
 
-    function getRewardHistory(uint _tokenId) public view returns(uint[] memory ) {
+    function getRewardHistory(uint _tokenId) public view returns(Reward[] memory ) {
         return rewardHistory[_tokenId];
     }
     

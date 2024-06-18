@@ -7,4 +7,4 @@ export const marketAddress = "0x53857B99Aa7f7B3e17Be7f19470199396588890d";
 export const nftAddress = "0x608D1a1D1fbC5ED05dda7c1f1b648904314F38dd";
 export const tokenAddress = "0xE66dbA036cB1b6CC952B865E4953dFEEA1c5d373";
 
-export const orderAddress = "0x86416B18B36bFdB58100c5EcD0Fa4D99be19acC4";
+export const orderAddress = "0x199e7CA1d5203265248b34a44Be46acb33c0Dc9b";

@@ -15,6 +15,7 @@ interface OutletContext {
   nftContract: Contract;
   orderContract: Contract;
   tokenContract: Contract;
+  uniswapContract: Contract;
   addCart: (item: Cart) => void;
   removeCart: (id: number) => void;
   clearCart: () => void;

@@ -146,7 +146,7 @@ function CartView() {
           {cartList.length ? (
             cartList.map((v, i) => (
               <CartCard
-                key={i}
+                key={v.id}
                 id={v.id}
                 src={v.src}
                 name={v.name}

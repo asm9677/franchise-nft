@@ -22,12 +22,6 @@ import { changeNetwork } from "../../lib/metamask";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useOutletContext } from "react-router-dom";
 
-interface SwapWidgetProps {
-  signer: JsonRpcSigner;
-  provider: BrowserProvider;
-  setSigner: Dispatch<SetStateAction<JsonRpcSigner>>;
-}
-
 interface Token {
   address: string;
   isETH: boolean;
@@ -37,8 +31,9 @@ interface Token {
   balance?: BigNumberish;
 }
 
-const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
-  const { notify } = useOutletContext<OutletContext>();
+const SwapWidget: FC = () => {
+  const { notify, signer, setSigner, provider } =
+    useOutletContext<OutletContext>();
   const [tokenContract, setTokenContract] = useState<Contract | null>(null);
   const [allowance, setAllowance] = useState<BigNumberish>(0n);
   const [inputBalance, setInputBalance] = useState<BigNumberish>(0n);
@@ -95,7 +90,8 @@ const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
   };
 
   const onClickButton = () => {
-    setIsLoading(true);
+    console.log(buttonType);
+
     let tx = null;
     switch (buttonType) {
       case 0:
@@ -160,6 +156,7 @@ const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
           }
         }
     }
+    setIsLoading(true);
 
     tx?.then((res) =>
       res
@@ -169,7 +166,10 @@ const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
           setIsLoading(false);
           provider.getSigner().then(setSigner);
         })
-    ).catch(() => setIsLoading(false));
+    ).catch((error: any) => {
+      setIsLoading(false);
+      console.error(error);
+    });
   };
 
   useEffect(() => {
@@ -197,6 +197,8 @@ const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
     if (!provider) return;
 
     provider.getNetwork().then(changeNetwork);
+
+    if (signer) return;
     setUniswapContract(new Contract(routerAddress, uniswapAbi, provider));
   }, [provider]);
 

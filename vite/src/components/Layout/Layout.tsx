@@ -9,6 +9,7 @@ import {
   marketAddress,
   nftAddress,
   orderAddress,
+  routerAddress,
   tokenAddress,
 } from "../../lib/contractAddress";
 
@@ -16,6 +17,7 @@ import marketABI from "../../contracts/Market.json";
 import nftABI from "../../contracts/NFT.json";
 import orderABI from "../../contracts/Order.json";
 import tokenABI from "../../contracts/ERC20.json";
+import uniswapABI from "../../contracts/uniswapV2.json";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
@@ -32,6 +34,7 @@ const Layout: FC = () => {
   const [nftContract, setNftContract] = useState<Contract | null>();
   const [orderContract, setOrderContract] = useState<Contract | null>();
   const [tokenContract, setTokenContract] = useState<Contract | null>();
+  const [uniswapContract, setUniswapContract] = useState<Contract | null>();
 
   const [cartList, setCartList] = useState<Cart[]>([]);
   const _navigate = useNavigate();
@@ -119,11 +122,13 @@ const Layout: FC = () => {
       setNftContract(new Contract(nftAddress, nftABI, signer));
       setOrderContract(new Contract(orderAddress, orderABI, signer));
       setTokenContract(new Contract(tokenAddress, tokenABI, signer));
+      setUniswapContract(new Contract(routerAddress, uniswapABI, signer));
     } else if (provider) {
       setMarketContract(new Contract(marketAddress, marketABI, provider));
       setNftContract(new Contract(nftAddress, nftABI, provider));
       setOrderContract(new Contract(orderAddress, orderABI, provider));
       setTokenContract(new Contract(tokenAddress, tokenABI, provider));
+      setUniswapContract(new Contract(routerAddress, uniswapABI, provider));
     }
   }, [signer, provider]);
 
@@ -155,6 +160,7 @@ const Layout: FC = () => {
             nftContract,
             orderContract,
             tokenContract,
+            uniswapContract,
             addCart,
             removeCart,
             clearCart,

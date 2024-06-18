@@ -19,7 +19,7 @@ import { BigNumberish } from "ethers";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const data = [
-  { date: "Jan 15", value: 10 },
+  { date: "Jan", value: 10 },
   { value: 15 },
   { date: "Mar 30", value: 20 },
   { date: "Apr 6", value: 30 },
@@ -38,9 +38,22 @@ const data = [
   { date: "Apr 13", value: 15 },
   { date: "Apr 20", value: 25 },
 ];
+
+interface ChartData {
+  date: string;
+  value: number;
+}
+
 const MarketDetail: FC = () => {
-  const { signer, provider, navigate, marketContract, nftContract } =
-    useOutletContext<OutletContext>();
+  const {
+    signer,
+    provider,
+    navigate,
+    marketContract,
+    nftContract,
+    orderContract,
+    uniswapContract,
+  } = useOutletContext<OutletContext>();
   const { tokenId } = useParams();
   const [purchasesCount, _setPurchasesCount] = useState<string>("1");
   const [purchasesValue, _setPurchasesValue] = useState<string>("1");
@@ -48,6 +61,13 @@ const MarketDetail: FC = () => {
   const [maxBuyCount, setMaxBuyCount] = useState<number>(0);
   const [buyList, setBuyList] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();
+
+  const [priceHistoryData, setPriceHistoryData] = useState<ChartData[]>([
+    { date: "2023 Jan", value: "1" },
+    { date: "2023 Jan", value: "2" },
+    { date: "2023 Jan", value: "3" },
+  ]);
+  const [rewardHistoryData, setRewardHistoryData] = useState<ChartData[]>([]);
 
   const setPurchasesValue = (v: string) => {
     if (!isNaN(Number(v))) _setPurchasesValue(v);
@@ -89,13 +109,60 @@ const MarketDetail: FC = () => {
   };
 
   const [listingIds, setListingIds] = useState<number[]>([]);
+  const [soldIds, setSoldIds] = useState<number[]>([]);
 
   const [listings, setListings] = useState<Item[]>([]);
+  const [solds, setSolds] = useState<Item[]>([]);
+
   const [sortedListings, setSortedListings] = useState<Item[]>([]);
+
+  useEffect(() => {
+    setPriceHistoryData([
+      { date: "Mar 19", value: 0.0005 },
+      { date: "Apr 19", value: 0.0002 },
+      { date: "May 19", value: 0.0007 },
+      ...solds.map((v: any) => {
+        return {
+          date: new Date(Number(v.timestamp) * 1000).toLocaleString("en-us", {
+            month: "short",
+            day: "numeric",
+          }),
+          value: Number(formatEther(v.price / v.amount)),
+        };
+      }),
+    ]);
+  }, [solds]);
+
+  useEffect(() => {
+    if (!orderContract) return;
+
+    orderContract.getRewardHistory(tokenId).then((res: any[]) => {
+      setRewardHistoryData([
+        { date: "Mar 19", value: 0.0005 },
+        { date: "Apr 19", value: 0.001 },
+        { date: "May 19", value: 0.0007 },
+        ...res.map((v: any) => {
+          console.log(new Date(Number(v.timestamp) * 1000));
+          return {
+            date: new Date(Number(v.timestamp) * 1000).toLocaleString("en-us", {
+              month: "short",
+              day: "numeric",
+            }),
+            value: Number(formatEther(v.price)),
+          };
+        }),
+      ]);
+    });
+  }, [orderContract]);
+
+  useEffect(() => {
+    console.log(rewardHistoryData, "rewardHistoryData");
+  }, [rewardHistoryData]);
 
   useEffect(() => {
     if (!marketContract) return;
     marketContract.getListingIds().then(setListingIds);
+    marketContract.getSoldIds().then(setSoldIds);
   }, [marketContract]);
 
   useEffect(() => {
@@ -119,6 +186,30 @@ const MarketDetail: FC = () => {
       );
     });
   }, [marketContract, listingIds]);
+
+  useEffect(() => {
+    if (!marketContract || !listingIds.length) return;
+
+    Promise.all(
+      soldIds.map(async (v, _) => await marketContract.getListingItem(v))
+    ).then((res) => {
+      setSolds(
+        res
+          .filter((v) => v.tokenId.toString() == tokenId)
+          .map((v, i) => {
+            return {
+              listingId: soldIds[i],
+              seller: v.seller,
+              tokenId: v.tokenId,
+              price: v.price,
+              amount: v.amount,
+              timestamp: v.timestamp,
+              sold: v.sold,
+            };
+          })
+      );
+    });
+  }, [marketContract, soldIds]);
 
   useEffect(() => {
     if (!marketContract || !listings.length) return;
@@ -181,7 +272,7 @@ const MarketDetail: FC = () => {
               <div className="flex justify-between mt-2">
                 <span>Token ID</span>
                 <span className="text-[14px] font-semibold text-[#338BE4]">
-                  5
+                  {tokenId}
                 </span>
               </div>
               <div className="flex justify-between mt-2">
@@ -200,7 +291,7 @@ const MarketDetail: FC = () => {
             pizza
           </div>
           <div className="h-9 font-bold text-[30px] text-[#121212] mb-10">
-            {tokenId && store[Number(tokenId)].title} #{tokenId}
+            {tokenId && store[Number(tokenId) - 1].title} #{tokenId}
           </div>
           <div className="flex flex-col justify-center w-full border border-[#E2E2E2] rounded-[10px] overflow-hidden text-[#121212] p-5 ">
             <div className="flex justify-between items-center min-h-[44px]">
@@ -303,21 +394,21 @@ const MarketDetail: FC = () => {
               </div>
             </button>
             <div className="p-5 pl-0 pt-9">
-              <Chart data={data} label="Price (ETH)" />
+              <Chart data={priceHistoryData} label="Price (ETH)" />
             </div>
           </div>
           <div className="flex flex-col justify-center w-full border border-[#E2E2E2] rounded-[10px] overflow-hidden text-[#121212] mt-6">
             <button className="flex justify-between p-5 min-h-[44px] border-b border-[#E2E2E2]">
               <div className="flex items-center">
                 <MdTimeline size={24} />
-                <span className="font-bold ml-[10px]">Reword History</span>
+                <span className="font-bold ml-[10px]">Reward History</span>
               </div>
               <div>
                 <MdKeyboardArrowDown size={24} />
               </div>
             </button>
             <div className="p-5 pl-0 pt-9">
-              <Chart data={data} label="Price (ETH)" />
+              <Chart data={rewardHistoryData} label="Price (ETH)" />
             </div>
           </div>
         </div>
