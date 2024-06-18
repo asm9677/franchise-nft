@@ -6,7 +6,6 @@ import { useOutletContext } from "react-router-dom";
 import { marketAddress } from "../../lib/contractAddress";
 
 interface ModalProps {
-  isOpen: boolean;
   onClose: () => void;
   nft: NftData;
   nftContract: Contract | null;
@@ -14,7 +13,6 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({
-  isOpen,
   onClose,
   nft,
   nftContract,
@@ -118,7 +116,7 @@ const Modal: FC<ModalProps> = ({
               <div className="text-[16px] text-[#121212] font-semibold">
                 {nft?.name}
               </div>
-              <div className="text-[14px] text-[#545454]">Project 3</div>
+              <div className="text-[14px] text-[#545454]">Pizza</div>
             </div>
           </div>
           <div className="flex flex-col mt-6">

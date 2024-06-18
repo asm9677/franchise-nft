@@ -111,7 +111,11 @@ const Header: FC<HeaderProps> = ({
             </button>
             <button
               className="bg-default-color/10 hover:bg-default-color/15 rounded-[12px] p-3"
-              onClick={() => navigate("/account")}
+              onClick={() =>
+                signer
+                  ? navigate(`/account/${signer?.address}`)
+                  : navigate(`/account`)
+              }
             >
               <MdOutlineAccountCircle size={24} />
             </button>

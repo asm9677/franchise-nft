@@ -8,36 +8,14 @@ import {
 } from "react-icons/md";
 
 import Chart from "../components/MarketDetail/Chart";
-import { marketAddress, nftAddress } from "../lib/contractAddress";
+import { nftAddress } from "../lib/contractAddress";
 import { useOutletContext, useParams } from "react-router-dom";
-import { Contract, formatEther, parseEther } from "ethers";
-import marketABI from "../contracts/Market.json";
-import nftABI from "../contracts/NFT.json";
+import { formatEther, parseEther } from "ethers";
+
 import store from "../lib/address.json";
 import { formatDate } from "../lib/utils";
 import { BigNumberish } from "ethers";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-
-const data = [
-  { date: "Jan", value: 10 },
-  { value: 15 },
-  { date: "Mar 30", value: 20 },
-  { date: "Apr 6", value: 30 },
-  { date: "Apr 13", value: 15 },
-  { date: "Apr 20", value: 25 },
-  { date: "Jan 15", value: 10 },
-  { value: 15 },
-  { date: "Mar 30", value: 20 },
-  { date: "Apr 6", value: 30 },
-  { date: "Apr 13", value: 15 },
-  { date: "Apr 20", value: 25 },
-  { date: "Jan 15", value: 10 },
-  { value: 15 },
-  { date: "Mar 30", value: 20 },
-  { date: "Apr 6", value: 30 },
-  { date: "Apr 13", value: 15 },
-  { date: "Apr 20", value: 25 },
-];
 
 interface ChartData {
   date: string;
@@ -45,15 +23,8 @@ interface ChartData {
 }
 
 const MarketDetail: FC = () => {
-  const {
-    signer,
-    provider,
-    navigate,
-    marketContract,
-    nftContract,
-    orderContract,
-    uniswapContract,
-  } = useOutletContext<OutletContext>();
+  const { navigate, marketContract, orderContract, notify } =
+    useOutletContext<OutletContext>();
   const { tokenId } = useParams();
   const [purchasesCount, _setPurchasesCount] = useState<string>("1");
   const [purchasesValue, _setPurchasesValue] = useState<string>("1");
@@ -62,11 +33,7 @@ const MarketDetail: FC = () => {
   const [buyList, setBuyList] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();
 
-  const [priceHistoryData, setPriceHistoryData] = useState<ChartData[]>([
-    { date: "2023 Jan", value: "1" },
-    { date: "2023 Jan", value: "2" },
-    { date: "2023 Jan", value: "3" },
-  ]);
+  const [priceHistoryData, setPriceHistoryData] = useState<ChartData[]>([]);
   const [rewardHistoryData, setRewardHistoryData] = useState<ChartData[]>([]);
 
   const setPurchasesValue = (v: string) => {
@@ -230,12 +197,12 @@ const MarketDetail: FC = () => {
       .then((tx: any) =>
         tx
           .wait()
-          .then()
+          .then(() => notify("구매에 성공했어요!"))
           .finally(() => setIsLoading(false))
       )
       .catch((error: any) => {
         setIsLoading(false);
-        console.error(error);
+        notify(error.shortMessage);
       });
   };
 
