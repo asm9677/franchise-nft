@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import NavNFT from "../components/NavNFT";
 import AccountItems from "../components/Account/AccountItems";
 import AccountHistory from "../components/Account/AccountHistory";
-import { Contract } from "ethers";
-import marketABI from "../contracts/Market.json";
-import nftABI from "../contracts/NFT.json";
-import { marketAddress, nftAddress } from "../lib/contractAddress";
 
 function Account() {
-  const { signer, provider } = useOutletContext<OutletContext>();
+  const { signer, provider, navigate, nftContract, marketContract } =
+    useOutletContext<OutletContext>();
   const { address } = useParams();
-  const navigate = useNavigate();
-  const [marketContract, setMarketContract] = useState<Contract | null>(null);
-  const [nftContract, setNftContract] = useState<Contract | null>(null);
 
   useEffect(() => {
     if (!address) {
@@ -22,20 +16,6 @@ function Account() {
     }
     if (!provider) return;
   }, []);
-
-  useEffect(() => {
-    if (signer) {
-      setMarketContract(new Contract(marketAddress, marketABI, signer));
-      setNftContract(new Contract(nftAddress, nftABI, signer));
-    } else if (provider) {
-      setMarketContract(new Contract(marketAddress, marketABI, provider));
-      setNftContract(new Contract(nftAddress, nftABI, provider));
-    }
-  }, [signer, provider]);
-
-  useEffect(() => {
-    console.log(nftContract?.runner);
-  }, [nftContract]);
 
   const [tab, setTab] = useState(0);
   return (

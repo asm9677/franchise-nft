@@ -2,6 +2,83 @@
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_price",
+        "type": "uint256"
+      }
+    ],
+    "name": "addMenu",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string[]",
+        "name": "_names",
+        "type": "string[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_prices",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "addMenus",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_menuId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "order",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "_menuIds",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "orders",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_nftAddress",
         "type": "address"
@@ -59,17 +136,19 @@
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_name",
-        "type": "string"
-      },
-      {
         "internalType": "uint256",
-        "name": "_price",
+        "name": "_menuId",
         "type": "uint256"
       }
     ],
-    "name": "addMenu",
+    "name": "removeMenu",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -77,17 +156,56 @@
   {
     "inputs": [
       {
-        "internalType": "string[]",
-        "name": "_names",
-        "type": "string[]"
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
       },
       {
-        "internalType": "uint256[]",
-        "name": "_prices",
-        "type": "uint256[]"
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
       }
     ],
-    "name": "addMenus",
+    "name": "setStoreOwnerAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      }
+    ],
+    "name": "updateFranchiseContractAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      }
+    ],
+    "name": "updatePizzaContractAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -159,9 +277,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint8",
+        "internalType": "uint256",
         "name": "_menuId",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "getMenu",
@@ -215,12 +333,79 @@
   {
     "inputs": [
       {
-        "internalType": "uint8",
+        "internalType": "uint256",
         "name": "_menuId",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "getPizzaPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "_menuIds",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amounts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getPizzasPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "_menuIds",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amounts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getPizzasUSDPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_menuId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPizzaUSDPrice",
     "outputs": [
       {
         "internalType": "uint256",
@@ -291,9 +476,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint8",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint8"
+        "type": "uint256"
       }
     ],
     "name": "menu",
@@ -310,24 +495,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "_menuId",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint8",
-        "name": "_tokenId",
-        "type": "uint8"
-      }
-    ],
-    "name": "order",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -354,26 +521,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "_menuId",
-        "type": "uint8"
-      }
-    ],
-    "name": "removeMenu",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -439,19 +586,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "uniswapV2Router",
     "outputs": [
@@ -462,32 +596,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "updateFranchiseContractAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "updatePizzaContractAddress",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

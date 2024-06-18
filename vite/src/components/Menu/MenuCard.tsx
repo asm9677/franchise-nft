@@ -4,7 +4,7 @@ import {
   MdOutlineRemove,
   MdOutlineShoppingCart,
 } from "react-icons/md";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 interface MenuCardProps {
   id: number;
@@ -14,12 +14,11 @@ interface MenuCardProps {
 }
 
 const MenuCard: FC<MenuCardProps> = ({ id, src, name, type }) => {
-  const { orderContract, signer, notify, addCart, cartList } =
+  const { orderContract, signer, notify, addCart, cartList, navigate } =
     useOutletContext<OutletContext>();
   const [menu, setMenu] = useState<Menu>();
   const [isHover, setIsHover] = useState(false);
   const [purchasesCount, _setPurchasesCount] = useState<string>("1");
-  const navigate = useNavigate();
 
   const setPurchasesCount = (v: string) => {
     if (!Number.isInteger(Number(v))) return;
@@ -46,6 +45,8 @@ const MenuCard: FC<MenuCardProps> = ({ id, src, name, type }) => {
       name,
       src,
     });
+    setPurchasesCount("1");
+    notify("장바구니에 추가되었어요!");
   };
 
   useEffect(() => {

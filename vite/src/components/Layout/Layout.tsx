@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import Header from "./Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { JsonRpcSigner } from "ethers";
 import { BrowserProvider } from "ethers";
@@ -9,11 +9,13 @@ import {
   marketAddress,
   nftAddress,
   orderAddress,
+  tokenAddress,
 } from "../../lib/contractAddress";
 
 import marketABI from "../../contracts/Market.json";
 import nftABI from "../../contracts/NFT.json";
 import orderABI from "../../contracts/Order.json";
+import tokenABI from "../../contracts/ERC20.json";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
@@ -29,8 +31,30 @@ const Layout: FC = () => {
   const [marketContract, setMarketContract] = useState<Contract | null>();
   const [nftContract, setNftContract] = useState<Contract | null>();
   const [orderContract, setOrderContract] = useState<Contract | null>();
+  const [tokenContract, setTokenContract] = useState<Contract | null>();
 
   const [cartList, setCartList] = useState<Cart[]>([]);
+  const _navigate = useNavigate();
+
+  const navigate = (url: string) => {
+    if (url === "/search") {
+      if (!signer) {
+        notify("지갑을 연결해주세요!");
+        return;
+      }
+    } else if (url === "/cart") {
+      if (!signer) {
+        notify("지갑을 연결해주세요!");
+        return;
+      }
+    } else if (url === "/account") {
+      if (!signer) {
+        notify("지갑을 연결해주세요!");
+        return;
+      }
+    }
+    _navigate(url);
+  };
 
   const addCart = (item: Cart) => {
     if (cartList.find((v) => v.id == item.id)) {
@@ -47,6 +71,20 @@ const Layout: FC = () => {
 
   const removeCart = (id: number) => {
     setCartList(cartList.filter((v) => v.id != id));
+  };
+
+  const clearCart = () => {
+    setCartList([]);
+  };
+
+  const changeCart = (id: number, amount: number) => {
+    if (amount < 1) return;
+    setCartList(
+      cartList.map((v) => {
+        if (v.id == id) v.amount = amount;
+        return v;
+      })
+    );
   };
 
   const notify = (text: string) => {
@@ -69,6 +107,10 @@ const Layout: FC = () => {
     if (!window.ethereum) return;
 
     setProvider(new ethers.BrowserProvider(window.ethereum));
+    navigator.geolocation.getCurrentPosition((position) => {
+      setMyLatitude(position.coords.latitude);
+      setMyLongitude(position.coords.longitude);
+    });
   }, []);
 
   useEffect(() => {
@@ -76,12 +118,18 @@ const Layout: FC = () => {
       setMarketContract(new Contract(marketAddress, marketABI, signer));
       setNftContract(new Contract(nftAddress, nftABI, signer));
       setOrderContract(new Contract(orderAddress, orderABI, signer));
+      setTokenContract(new Contract(tokenAddress, tokenABI, signer));
     } else if (provider) {
       setMarketContract(new Contract(marketAddress, marketABI, provider));
       setNftContract(new Contract(nftAddress, nftABI, provider));
       setOrderContract(new Contract(orderAddress, orderABI, provider));
+      setTokenContract(new Contract(tokenAddress, tokenABI, provider));
     }
   }, [signer, provider]);
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, [signer]);
 
   return (
     <div className="ralative ">
@@ -91,6 +139,7 @@ const Layout: FC = () => {
         provider={provider}
         setProvider={setProvider}
         cartList={cartList}
+        navigate={navigate}
       />
       <div className="">
         <Outlet
@@ -105,10 +154,14 @@ const Layout: FC = () => {
             marketContract,
             nftContract,
             orderContract,
+            tokenContract,
             addCart,
             removeCart,
+            clearCart,
+            changeCart,
             cartList,
             notify,
+            navigate,
           }}
         />
       </div>

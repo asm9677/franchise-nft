@@ -14,10 +14,19 @@ interface OutletContext {
   marketContract: Contract;
   nftContract: Contract;
   orderContract: Contract;
+  tokenContract: Contract;
   addCart: (item: Cart) => void;
   removeCart: (id: number) => void;
+  clearCart: () => void;
+  changeCart: (id: number, amount: number) => void;
   cartList: Cart[];
   notify: (text: string) => void;
+  navigate: (url: string) => void;
+}
+
+interface pointer {
+  lat: number;
+  lng: number;
 }
 
 interface Cart {

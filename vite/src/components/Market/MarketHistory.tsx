@@ -30,9 +30,6 @@ const MarketHistory: FC<MarketHistoryProps> = ({
       );
   }, [marketContract]);
 
-  useEffect(() => {
-    console.log(listingIds);
-  }, [listingIds]);
   return (
     <div className="w-full">
       <NavHistory sortOpen={sortOpen} setSortOpen={setSortOpen} />

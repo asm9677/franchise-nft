@@ -1,6 +1,6 @@
 import { BigNumberish, formatEther } from "ethers";
 import { FC, useEffect, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 interface MarketCardProps {
   market: Address;
@@ -16,7 +16,7 @@ const MarketCard: FC<MarketCardProps> = ({
   listingItems,
 }) => {
   const [isHover, setIsHover] = useState(false);
-  const navigate = useNavigate();
+  const { navigate } = useOutletContext<OutletContext>();
 
   const [lastPrice, setLastPrice] = useState<BigNumberish>();
   const [curPrice, setCurPrice] = useState<BigNumberish>();

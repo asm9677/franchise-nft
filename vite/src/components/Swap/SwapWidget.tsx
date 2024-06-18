@@ -20,6 +20,7 @@ import { BigNumberish } from "ethers";
 import SwapInput from "./SwapInput";
 import { changeNetwork } from "../../lib/metamask";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useOutletContext } from "react-router-dom";
 
 interface SwapWidgetProps {
   signer: JsonRpcSigner;
@@ -37,6 +38,7 @@ interface Token {
 }
 
 const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
+  const { notify } = useOutletContext<OutletContext>();
   const [tokenContract, setTokenContract] = useState<Contract | null>(null);
   const [allowance, setAllowance] = useState<BigNumberish>(0n);
   const [inputBalance, setInputBalance] = useState<BigNumberish>(0n);
@@ -158,10 +160,11 @@ const SwapWidget: FC<SwapWidgetProps> = ({ signer, provider, setSigner }) => {
           }
         }
     }
+
     tx?.then((res) =>
       res
         .wait()
-        .then(console.log)
+        .then(() => notify("트랜잭션이 성공적으로 처리되었어요!"))
         .finally(() => {
           setIsLoading(false);
           provider.getSigner().then(setSigner);

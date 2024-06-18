@@ -33,8 +33,6 @@ const LocationTab: FC<LocationTabProps> = ({
     );
   }, [checkList]);
 
-  useEffect(() => console.log(checkedCount), [checkedCount]);
-
   return (
     <>
       <button

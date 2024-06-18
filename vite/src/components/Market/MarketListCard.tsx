@@ -2,7 +2,7 @@ import { Contract, formatEther } from "ethers";
 import { FC, useEffect, useState } from "react";
 import { MdOutlineSell } from "react-icons/md";
 import store from "../../lib/address.json";
-import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { formatDate } from "../../lib/utils";
 
 interface MarketListCardProps {
@@ -17,16 +17,12 @@ const MarketListCard: FC<MarketListCardProps> = ({
   id,
 }) => {
   const [item, setItem] = useState<Item>();
-  const navigate = useNavigate();
+  const { navigate } = useOutletContext<OutletContext>();
   useEffect(() => {
     if (!marketContract) return;
     marketContract.getListingItem(id).then(setItem);
   }, [marketContract]);
 
-  useEffect(() => {
-    if (!nftContract || !item) return;
-    console.log(item.seller, item.tokenId);
-  }, [nftContract, item]);
   return (
     <button className="flex items-center justify-between w-full rounded-[8px] border-b border-[#E2E2E2] h-[82px] p-4 hover:bg-[#F5F5F5]">
       <div className="flex items-center px-[2px] flex-[1]">

@@ -3,7 +3,7 @@ import { BrowserProvider } from "ethers";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { MdOutlineAccountCircle, MdOutlineWallet } from "react-icons/md";
 import { SlBasket } from "react-icons/sl";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 interface HeaderProps {
   signer: JsonRpcSigner | undefined;
@@ -11,6 +11,7 @@ interface HeaderProps {
   provider: BrowserProvider | undefined;
   setProvider: Dispatch<SetStateAction<BrowserProvider | undefined>>;
   cartList: Cart[];
+  navigate: (url: string) => void;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -19,8 +20,8 @@ const Header: FC<HeaderProps> = ({
   provider,
   setProvider,
   cartList,
+  navigate,
 }) => {
-  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [buttonMessage, setButtonMessage] = useState("Login");
 
@@ -40,11 +41,6 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!provider) return;
-    console.log(provider);
-  }, [provider]);
-
-  useEffect(() => {
     if (!signer) {
       setButtonMessage("Login");
     } else {
@@ -54,8 +50,6 @@ const Header: FC<HeaderProps> = ({
         )}`
       );
     }
-
-    console.log(signer);
   }, [signer]);
 
   return (
@@ -105,9 +99,14 @@ const Header: FC<HeaderProps> = ({
               </span>
             </button>
             <button
-              className="bg-default-color/10 hover:bg-default-color/15 rounded-[12px] p-3"
+              className="bg-default-color/10 hover:bg-default-color/15 rounded-[12px] p-3 relative"
               onClick={() => navigate("/cart")}
             >
+              {cartList.length != 0 && (
+                <div className="absolute -top-2 -right-2 rounded-full bg-default-color text-white flex items-center justify-center w-6 h-6 text-[16px]">
+                  {cartList.length}
+                </div>
+              )}
               <SlBasket size={24} />
             </button>
             <button

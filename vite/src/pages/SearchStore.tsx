@@ -2,17 +2,12 @@ import { FC, useEffect, useState } from "react";
 import KakaoMap from "../components/KakaoMap";
 import address from "../lib/address.json";
 import { MdLocationOn } from "react-icons/md";
-import { useNavigate, useOutletContext } from "react-router-dom";
-
-interface pointer {
-  lat: number;
-  lng: number;
-}
+import { useOutletContext } from "react-router-dom";
+import { getDiffDistance } from "../lib/utils";
 
 const Menu: FC = () => {
-  const { myLatitude, setMyLatitude, myLongitude, setMyLongitude, notify } =
+  const { myLatitude, setMyLatitude, myLongitude, setMyLongitude, navigate } =
     useOutletContext<OutletContext>();
-  const navigate = useNavigate();
   const [stores, setStores] = useState<Address[]>(address);
   const [isSorted, setIsSorted] = useState<boolean>(true);
   const [latitude, setLatitude] = useState<number>(37.5709908);
@@ -21,31 +16,6 @@ const Menu: FC = () => {
   function FormatDistance(dis: number) {
     if (dis < 1000) return `${dis}M`;
     else return `${(dis / 1000).toFixed(1)}KM`;
-  }
-
-  function toRadians(degrees: number) {
-    return (degrees * Math.PI) / 180;
-  }
-
-  function getDiffDistance(p1: pointer, p2: pointer) {
-    const R = 6371e3; // 지구의 반지름 (미터 단위)
-
-    const radLat1 = toRadians(p1.lat);
-    const radLat2 = toRadians(p2.lat);
-    const deltaLat = toRadians(p2.lat - p1.lat);
-    const deltaLon = toRadians(p2.lng - p1.lng);
-
-    const a =
-      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-      Math.cos(radLat1) *
-        Math.cos(radLat2) *
-        Math.sin(deltaLon / 2) *
-        Math.sin(deltaLon / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    const distance = R * c; // 거리 계산 (미터 단위)
-    return Math.round(distance);
   }
 
   const sortStores = () => {
@@ -64,11 +34,14 @@ const Menu: FC = () => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setMyLatitude(position.coords.latitude);
-      setMyLongitude(position.coords.longitude);
-    });
+    let id = sessionStorage.getItem("id");
+    if (id) moveMenu(id);
   }, []);
+
+  const moveMenu = (id: string) => {
+    sessionStorage.setItem("id", id);
+    navigate(`/menu/${id}`);
+  };
 
   useEffect(() => {
     setLatitude(myLatitude);
@@ -121,7 +94,7 @@ const Menu: FC = () => {
                   </div>
                   <button
                     className="bg-default-color rounded-sm h-10 mt-4 text-white font-semibold"
-                    onClick={() => navigate("/menu/1")}
+                    onClick={() => moveMenu(v.id.toString())}
                   >
                     주문하기
                   </button>

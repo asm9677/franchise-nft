@@ -9,7 +9,7 @@ import {
 
 import Chart from "../components/MarketDetail/Chart";
 import { marketAddress, nftAddress } from "../lib/contractAddress";
-import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { Contract, formatEther, parseEther } from "ethers";
 import marketABI from "../contracts/Market.json";
 import nftABI from "../contracts/NFT.json";
@@ -39,7 +39,8 @@ const data = [
   { date: "Apr 20", value: 25 },
 ];
 const MarketDetail: FC = () => {
-  const { signer, provider } = useOutletContext<OutletContext>();
+  const { signer, provider, navigate, marketContract, nftContract } =
+    useOutletContext<OutletContext>();
   const { tokenId } = useParams();
   const [purchasesCount, _setPurchasesCount] = useState<string>("1");
   const [purchasesValue, _setPurchasesValue] = useState<string>("1");
@@ -47,7 +48,7 @@ const MarketDetail: FC = () => {
   const [maxBuyCount, setMaxBuyCount] = useState<number>(0);
   const [buyList, setBuyList] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>();
-  const navigate = useNavigate();
+
   const setPurchasesValue = (v: string) => {
     if (!isNaN(Number(v))) _setPurchasesValue(v);
   };
@@ -87,22 +88,10 @@ const MarketDetail: FC = () => {
     setPurchasesCount(String(Number(purchasesCount) - 1));
   };
 
-  const [marketContract, setMarketContract] = useState<Contract | null>(null);
-  const [nftContract, setNftContract] = useState<Contract | null>(null);
-
   const [listingIds, setListingIds] = useState<number[]>([]);
 
   const [listings, setListings] = useState<Item[]>([]);
   const [sortedListings, setSortedListings] = useState<Item[]>([]);
-  useEffect(() => {
-    if (signer) {
-      setMarketContract(new Contract(marketAddress, marketABI, signer));
-      setNftContract(new Contract(nftAddress, nftABI, signer));
-    } else if (provider) {
-      setMarketContract(new Contract(marketAddress, marketABI, provider));
-      setNftContract(new Contract(nftAddress, nftABI, provider));
-    }
-  }, [signer, provider]);
 
   useEffect(() => {
     if (!marketContract) return;
@@ -147,13 +136,13 @@ const MarketDetail: FC = () => {
 
     marketContract
       .multiPurchase(buyList, { value: maxValue })
-      .then((tx) =>
+      .then((tx: any) =>
         tx
           .wait()
           .then()
           .finally(() => setIsLoading(false))
       )
-      .catch((error) => {
+      .catch((error: any) => {
         setIsLoading(false);
         console.error(error);
       });

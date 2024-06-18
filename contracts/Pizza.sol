@@ -51,7 +51,7 @@ contract Pizza is ERC20, Ownable {
         _mint(address(this), 18000 * 10**decimals());
     }
 
-    function burnFrom(address account, uint256 value) public {
+    function burnFrom(address account, uint256 value) external {
         _spendAllowance(account, _msgSender(), value);
         _transfer(account, address(0), value);
     }

@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 
 interface AccountCardProps {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -24,18 +24,13 @@ const AccountCard: FC<AccountCardProps> = ({
   nftContract,
   address,
 }) => {
-  const { signer } = useOutletContext<OutletContext>();
+  const { signer, navigate } = useOutletContext<OutletContext>();
   const [isHover, setIsHover] = useState(false);
-  const navigate = useNavigate();
   const [balance, setBalance] = useState<BigNumberish>(0n);
 
   useEffect(() => {
     nftContract?.balanceOf(address, nft.id).then(setBalance);
   }, [nftContract]);
-
-  useEffect(() => {
-    console.log(balance == 100n);
-  }, [balance]);
 
   if (balance == 0n) return;
   return (
