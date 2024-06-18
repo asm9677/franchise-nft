@@ -13,6 +13,8 @@ interface OutletContext {
   setMyLongitude: Dispatch<SetStateAction<number | undefined>>;
   marketContract: Contract;
   nftContract: Contract;
+  orderContract: Contract;
+  notify: (text: string) => void;
 }
 
 interface Address {

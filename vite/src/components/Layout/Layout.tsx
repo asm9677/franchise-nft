@@ -5,10 +5,18 @@ import { ethers } from "ethers";
 import { JsonRpcSigner } from "ethers";
 import { BrowserProvider } from "ethers";
 import { Contract } from "ethers";
-import { marketAddress, nftAddress } from "../../lib/contractAddress";
+import {
+  marketAddress,
+  nftAddress,
+  orderAddress,
+} from "../../lib/contractAddress";
 
 import marketABI from "../../contracts/Market.json";
 import nftABI from "../../contracts/NFT.json";
+import orderABI from "../../contracts/Order.json";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 const Layout: FC = () => {
   const [signer, setSigner] = useState<JsonRpcSigner>();
@@ -19,6 +27,22 @@ const Layout: FC = () => {
 
   const [marketContract, setMarketContract] = useState<Contract | null>();
   const [nftContract, setNftContract] = useState<Contract | null>();
+  const [orderContract, setOrderContract] = useState<Contract | null>();
+
+  const notify = (text: string) => {
+    toast.success(text, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      className: "bg-default-color text-white",
+      bodyClassName: "font-bold",
+      progressClassName: "bg-violet-500",
+    });
+  };
 
   useEffect(() => {
     if (!window.ethereum) return;
@@ -30,21 +54,23 @@ const Layout: FC = () => {
     if (signer) {
       setMarketContract(new Contract(marketAddress, marketABI, signer));
       setNftContract(new Contract(nftAddress, nftABI, signer));
+      setOrderContract(new Contract(orderAddress, orderABI, signer));
     } else if (provider) {
       setMarketContract(new Contract(marketAddress, marketABI, provider));
       setNftContract(new Contract(nftAddress, nftABI, provider));
+      setOrderContract(new Contract(orderAddress, orderABI, provider));
     }
   }, [signer, provider]);
 
   return (
-    <div className="">
+    <div className="ralative ">
       <Header
         signer={signer}
         setSigner={setSigner}
         provider={provider}
         setProvider={setProvider}
       />
-      <div className="zzz">
+      <div className="">
         <Outlet
           context={{
             signer,
@@ -56,9 +82,18 @@ const Layout: FC = () => {
             setMyLongitude,
             marketContract,
             nftContract,
+            orderContract,
+            notify,
           }}
         />
       </div>
+      {/* <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={() => notify("지갑을 연결해주세요!")}
+      >
+        Show Toast
+      </button> */}
+      <ToastContainer />
     </div>
   );
 };

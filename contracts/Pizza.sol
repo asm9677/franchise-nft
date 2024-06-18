@@ -13,6 +13,8 @@ interface IUniswapV2Factory {
 
 interface IUniswapV2Router02 {
 // Interface for the Uniswap V2 router
+    function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
+    function getAmountsIn(uint amountOut, address[] calldata path) external view returns (uint[] memory amounts);
     function swapExactTokensForETHSupportingFeeOnTransferTokens(
         uint amountIn,
         uint amountOutMin,
@@ -49,7 +51,7 @@ contract Pizza is ERC20, Ownable {
         _mint(address(this), 18000 * 10**decimals());
     }
 
-    function burnFrom(address account, uint256 value) internal {
+    function burnFrom(address account, uint256 value) public {
         _spendAllowance(account, _msgSender(), value);
         _transfer(account, address(0), value);
     }

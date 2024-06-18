@@ -15,8 +15,6 @@ const MarketCard: FC<MarketCardProps> = ({
   soldItems,
   listingItems,
 }) => {
-  const { provider, marketContract, nftContract } =
-    useOutletContext<OutletContext>();
   const [isHover, setIsHover] = useState(false);
   const navigate = useNavigate();
 

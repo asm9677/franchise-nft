@@ -14,9 +14,12 @@ interface MenuCardProps {
 }
 
 const MenuCard: FC<MenuCardProps> = ({ id, src, name, type }) => {
+  const;
+
   const [isHover, setIsHover] = useState(false);
   const [purchasesCount, setPurchasesCount] = useState<string>("1");
   const navigate = useNavigate();
+
   return (
     <div
       className="rounded-[10px] overflow-hidden shadow-lg cursor-pointer"

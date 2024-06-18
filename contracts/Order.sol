@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Franchise.sol";
 import "./Pizza.sol";
 
-
 contract Order is Ownable {
     struct Menu {
         string name;
@@ -25,22 +24,25 @@ contract Order is Ownable {
 
     mapping(uint => address) public storeOwnerAddress;
     mapping(uint => uint) public reward;
+    mapping(uint => uint[]) public rewardHistory;
     mapping(uint => uint) public latestTimestamp;
 
     mapping(uint8 => Menu) public menu;
-    uint8 totalMenu;
+    uint8 totalMenu = 0;
     uint8 usdDecimal = 8;
 
 
 
-    constructor() Ownable(_msgSender()) {
+    constructor(address _nftAddress, address _tokenAddress) Ownable(_msgSender()) {
         ethPriceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306); //sepolia address
-        uniswapV2Router = IUniswapV2Router02(0x86dcd3293C53Cf8EFd7303B57beb2a3F671dDE98); //sepolia address
+        uniswapV2Router = IUniswapV2Router02(0xC532a74256D3Db42D0Bf7a0400fEFDbad7694008); //sepolia address
 
-        addMenu("potato", 20 * (10 ** 8));
-        addMenu("pepperoni", 20 * (10 ** 8));
-        addMenu("combination", 20 * (10 ** 8));
+        updateFranchiseContractAddress(_nftAddress);
+        updatePizzaContractAddress(_tokenAddress);
 
+        // addMenu("potato", 20 * (10 ** 8));
+        // addMenu("pepperoni", 20 * (10 ** 8));
+        // addMenu("combination", 20 * (10 ** 8));
     }
 
     modifier checkMenu(uint8 _menuId) {
@@ -56,7 +58,6 @@ contract Order is Ownable {
             /* uint timeStamp */,
             /* uint80 answeredInRound */
         ) = ethPriceFeed.latestRoundData();
-
 
         return ethPrice;
     }
@@ -77,6 +78,13 @@ contract Order is Ownable {
         totalMenu += 1;
         require(totalMenu < 256, "Unable to add menu");
         menu[totalMenu] = Menu(_name, _price);
+    }
+
+    function addMenus(string[] memory _names, uint[] memory _prices) external  onlyOwner {
+        require(_names.length == _prices.length, "Array length does not match");
+
+        for(uint i = 0; i < _names.length; i++)
+            addMenu(_names[i], _prices[i]);
     }
 
     function removeMenu(uint8 _menuId) public onlyOwner() {
@@ -124,11 +132,11 @@ contract Order is Ownable {
     function distribute(uint _tokenId) private {
         address[] memory ownerList = franchise.getOwnerList(_tokenId);
         for(uint i = 0; i < ownerList.length; i++) {
-            pizza.transfer(ownerList[i], reward[_tokenId] * franchise.totalSupply(_tokenId, ownerList[i]) / 100);
+            pizza.transfer(ownerList[i], reward[_tokenId] * franchise.balanceOf(ownerList[i],_tokenId) / 100);
         }
+        rewardHistory[_tokenId].push(reward[_tokenId]);
         reward[_tokenId] = 0;
         latestTimestamp[_tokenId] = block.timestamp;
-
     }
 
     function order(uint8 _menuId, uint8 _tokenId) public checkMenu(_menuId) {
@@ -138,7 +146,6 @@ contract Order is Ownable {
         if(checkDistributionReward(_tokenId)) {
             distribute(_tokenId);
         }
-
 
         require(pizza.allowance(_msgSender(), address(this)) >= price);
         pizza.transferFrom(_msgSender(), address(this), price);
@@ -151,4 +158,13 @@ contract Order is Ownable {
         pizza.transferFrom(_msgSender(), address(0), price * 25 / 1000);
         reward[_tokenId] += price * 50 / 1000;
     }
+
+    function getRewardHistory(uint _tokenId) public view returns(uint[] memory ) {
+        return rewardHistory[_tokenId];
+    }
+    
+    function getCurrentReward(uint _tokenId) public view returns(uint) {
+        return reward[_tokenId];
+    }
+
 }

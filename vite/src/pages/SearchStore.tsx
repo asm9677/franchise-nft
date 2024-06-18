@@ -10,7 +10,7 @@ interface pointer {
 }
 
 const Menu: FC = () => {
-  const { myLatitude, setMyLatitude, myLongitude, setMyLongitude } =
+  const { myLatitude, setMyLatitude, myLongitude, setMyLongitude, notify } =
     useOutletContext<OutletContext>();
   const navigate = useNavigate();
   const [stores, setStores] = useState<Address[]>(address);
@@ -71,7 +71,8 @@ const Menu: FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(myLatitude, myLongitude);
+    setLatitude(myLatitude);
+    setLongitude(myLongitude);
     setIsSorted(false);
   }, [myLatitude, myLongitude]);
 
