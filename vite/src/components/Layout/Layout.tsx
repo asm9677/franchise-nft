@@ -22,6 +22,7 @@ import uniswapABI from "../../contracts/uniswapV2.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import { MdError } from "react-icons/md";
+import { getKakaoMapAddress } from "../../lib/utils";
 
 const Layout: FC = () => {
   const [signer, setSigner] = useState<JsonRpcSigner>();
@@ -35,6 +36,9 @@ const Layout: FC = () => {
   const [orderContract, setOrderContract] = useState<Contract | null>();
   const [tokenContract, setTokenContract] = useState<Contract | null>();
   const [uniswapContract, setUniswapContract] = useState<Contract | null>();
+
+  const [homeAddress, setHomeAddress] =
+    useState<string>("주소를 입력해주세요.");
 
   const [cartList, setCartList] = useState<Cart[]>([]);
   const _navigate = useNavigate();
@@ -136,6 +140,11 @@ const Layout: FC = () => {
     sessionStorage.clear();
   }, [signer]);
 
+  useEffect(() => {
+    if (myLatitude == 37.5709908 || myLongitude == 126.9789309) return;
+    getKakaoMapAddress(myLatitude, myLongitude).then(setHomeAddress);
+  }, [myLatitude, myLongitude]);
+
   return (
     <div className="ralative ">
       <Header
@@ -145,6 +154,8 @@ const Layout: FC = () => {
         setProvider={setProvider}
         cartList={cartList}
         navigate={navigate}
+        notify={notify}
+        homeAddress={homeAddress}
       />
       <div className="">
         <Outlet
@@ -168,6 +179,7 @@ const Layout: FC = () => {
             cartList,
             notify,
             navigate,
+            homeAddress,
           }}
         />
       </div>

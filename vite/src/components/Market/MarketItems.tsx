@@ -68,7 +68,7 @@ const MarketItems: FC<MarketItemProps> = ({ account }) => {
       />
       <div className="flex mt-6  ">
         {menuOpen && (
-          <div className="min-w-[300px] max-h-full overflow-y-hidden">
+          <div className="min-w-[300px] max-h-full overflow-y-auto">
             <MarketItemMenu
               checkList={checkList}
               setCheckList={setCheckList}
@@ -78,7 +78,7 @@ const MarketItems: FC<MarketItemProps> = ({ account }) => {
           </div>
         )}
         <div>
-          <div className="grid grid-cols-5 gap-4 overflow-y-hidden">
+          <div className="grid grid-cols-5 gap-4 ">
             {store.map((v, i) => (
               <MarketCard
                 key={i}

@@ -26,7 +26,7 @@ const MarketDetail: FC = () => {
   const { navigate, marketContract, orderContract, notify } =
     useOutletContext<OutletContext>();
   const { tokenId } = useParams();
-  const [purchasesCount, _setPurchasesCount] = useState<string>("1");
+  const [purchasesCount, _setPurchasesCount] = useState<string>("0");
   const [purchasesValue, _setPurchasesValue] = useState<string>("1");
   const [maxValue, setMaxValue] = useState<BigNumberish>(0n);
   const [maxBuyCount, setMaxBuyCount] = useState<number>(0);
@@ -143,6 +143,7 @@ const MarketDetail: FC = () => {
           return {
             listingId: listingIds[i],
             seller: v.seller,
+            buyer: v.buyer,
             tokenId: v.tokenId,
             price: v.price,
             amount: v.amount,
@@ -167,6 +168,7 @@ const MarketDetail: FC = () => {
             return {
               listingId: soldIds[i],
               seller: v.seller,
+              buyer: v.buyer,
               tokenId: v.tokenId,
               price: v.price,
               amount: v.amount,
@@ -254,7 +256,10 @@ const MarketDetail: FC = () => {
           </div>
         </div>
         <div className="flex flex-col grow w-1/2">
-          <div className="h-12 text-[#2081E2] font-semibold flex items-center mb-[1px] ">
+          <div
+            className="h-12 text-[#2081E2] font-semibold flex items-center mb-[1px] cursor-pointer"
+            onClick={() => navigate("/market")}
+          >
             pizza
           </div>
           <div className="h-9 font-bold text-[30px] text-[#121212] mb-10">

@@ -23,6 +23,7 @@ interface OutletContext {
   cartList: Cart[];
   notify: (text: string) => void;
   navigate: (url: string) => void;
+  homeAddress: string;
 }
 
 interface pointer {
@@ -62,6 +63,7 @@ interface NftData {
 interface Item {
   listingId?: number;
   seller: string;
+  buyer: string;
   tokenId: number;
   price: BigNumberish;
   amount: number;

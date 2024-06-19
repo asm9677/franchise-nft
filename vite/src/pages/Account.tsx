@@ -40,6 +40,7 @@ function Account() {
         <MarketHistory
           marketContract={marketContract}
           nftContract={nftContract}
+          account={account}
         />
       )}
     </section>

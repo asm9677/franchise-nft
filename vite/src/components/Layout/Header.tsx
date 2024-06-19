@@ -1,7 +1,13 @@
 import { JsonRpcSigner } from "ethers";
 import { BrowserProvider } from "ethers";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { MdOutlineAccountCircle, MdOutlineWallet } from "react-icons/md";
+import { CiLocationOn } from "react-icons/ci";
+import { FaLocationArrow } from "react-icons/fa";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineLocationOn,
+  MdOutlineWallet,
+} from "react-icons/md";
 import { SlBasket } from "react-icons/sl";
 import { useNavigate, useOutletContext } from "react-router-dom";
 
@@ -12,6 +18,8 @@ interface HeaderProps {
   setProvider: Dispatch<SetStateAction<BrowserProvider | undefined>>;
   cartList: Cart[];
   navigate: (url: string) => void;
+  notify: (text: string) => void;
+  homeAddress: string;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -21,6 +29,8 @@ const Header: FC<HeaderProps> = ({
   setProvider,
   cartList,
   navigate,
+  notify,
+  homeAddress,
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [buttonMessage, setButtonMessage] = useState("Login");
@@ -51,6 +61,18 @@ const Header: FC<HeaderProps> = ({
       );
     }
   }, [signer]);
+
+  const checkLocationPermissions = () => {
+    navigator.permissions
+      .query({ name: "geolocation" })
+      .then(function (result) {
+        if (result.state !== "granted") {
+          notify("위치접근허용을 승인해주세요!");
+        } else {
+          navigate("/search");
+        }
+      });
+  };
 
   return (
     <>
@@ -89,6 +111,15 @@ const Header: FC<HeaderProps> = ({
             </button>
           </div>
           <div className="flex gap-3 text-default-color">
+            <button
+              className="flex items-center justify-center mr-12 gap-2"
+              onClick={checkLocationPermissions}
+            >
+              <FaLocationArrow size={18} />
+              <span className="h-[24px] text-[16px] font-semibold">
+                {homeAddress}
+              </span>
+            </button>
             <button
               className="flex items-center gap-3 rounded-[12px] px-3 bg-default-color/10 hover:bg-default-color/15"
               onClick={() => !signer && provider?.getSigner().then(setSigner)}

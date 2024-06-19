@@ -25,8 +25,9 @@ function CartView() {
     notify,
     orderContract,
     tokenContract,
+    homeAddress,
   } = useOutletContext<OutletContext>();
-  const [homeAddress, setHomeAddress] = useState<string>("");
+
   const [storeAddress, setStoreAddress] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<BigNumberish>(0n);
   const [totalUSD, setTotalUSD] = useState<BigNumberish>(0n);
@@ -47,10 +48,6 @@ function CartView() {
     setTokenId(Number(id));
     let s = store.find((v) => v.id == Number(id));
     setStoreAddress(`(${s?.title}) ${s?.address}`);
-  }, []);
-
-  useEffect(() => {
-    getKakaoMapAddress(myLatitude, myLongitude).then(setHomeAddress);
   }, []);
 
   useEffect(() => {

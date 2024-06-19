@@ -8,11 +8,13 @@ import { Contract } from "ethers";
 interface MarketHistoryProps {
   nftContract: Contract | null;
   marketContract: Contract | null;
+  account?: string | undefined;
 }
 
 const MarketHistory: FC<MarketHistoryProps> = ({
   nftContract,
   marketContract,
+  account,
 }) => {
   const [sortOpen, setSortOpen] = useState(false);
   const [eventOpen, setEventOpen] = useState(false);
@@ -26,7 +28,7 @@ const MarketHistory: FC<MarketHistoryProps> = ({
       .then((r1: number[]) =>
         marketContract
           ?.getListingIds()
-          .then((r2: number[]) => setListingIds([...r1, ...r2]))
+          .then((r2: number[]) => setListingIds([...r1, ...r2].reverse()))
       );
   }, [marketContract]);
 
@@ -49,12 +51,6 @@ const MarketHistory: FC<MarketHistoryProps> = ({
         </div>
         <div className="w-full">
           <div className="flex justify-between p-4 text-[#545454] border-b border-[#E2E2E2] ">
-            {/* <div className="w-[140px]"></div>
-            <div className="w-[160px]">Item</div>
-            <div className="w-[87px] text-end">Price</div>
-            <div className="w-[76px] text-end">From</div>
-            <div className="w-[76px] text-end">To</div>
-            <div className="w-[76px] text-end">Time</div> */}
             <div className="flex-[1] text-start"></div>
             <div className="flex-[2] text-start">Item</div>
             <div className="flex-[2] text-end">Price</div>
@@ -68,6 +64,7 @@ const MarketHistory: FC<MarketHistoryProps> = ({
               nftContract={nftContract}
               marketContract={marketContract}
               id={v}
+              account={account}
             />
           ))}
         </div>

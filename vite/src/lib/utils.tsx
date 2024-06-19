@@ -52,6 +52,7 @@ export async function getKakaoMapAddress(lat: number, lng: number) {
 
   try {
     const response = await axios.get(url, { headers });
+
     if (response.status === 200) {
       const address = response.data.documents[0].address.address_name;
       return address;
