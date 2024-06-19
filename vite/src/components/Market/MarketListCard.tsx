@@ -6,14 +6,12 @@ import { useOutletContext } from "react-router-dom";
 import { formatDate } from "../../lib/utils";
 
 interface MarketListCardProps {
-  nftContract: Contract | null;
   marketContract: Contract | null;
   id: number;
   account?: string | undefined;
 }
 
 const MarketListCard: FC<MarketListCardProps> = ({
-  nftContract,
   marketContract,
   id,
   account,

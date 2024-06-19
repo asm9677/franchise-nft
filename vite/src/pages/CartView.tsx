@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import MenuCard from "../components/Menu/MenuCard";
-import cart from "../lib/cart.json";
 import CartCard from "../components/CartView/CartCard";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useOutletContext } from "react-router-dom";
 import { PiShoppingCartLight } from "react-icons/pi";
-import { getKakaoMapAddress } from "../lib/utils";
 
 import store from "../lib/address.json";
 import { formatEther, formatUnits } from "ethers";
 import { BigNumberish } from "ethers";
 import { orderAddress } from "../lib/contractAddress";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-// import { useOutletContext } from "react-router-dom";
 
 function CartView() {
   const {
@@ -20,8 +16,6 @@ function CartView() {
     clearCart,
     signer,
     navigate,
-    myLatitude,
-    myLongitude,
     notify,
     orderContract,
     tokenContract,
@@ -141,7 +135,7 @@ function CartView() {
         </h2>
         <div className="grid grid-cols-1 gap-2 border border-[#E2E2E2] rounded-[10px] py-4 px-4 mb-32">
           {cartList.length ? (
-            cartList.map((v, i) => (
+            cartList.map((v) => (
               <CartCard
                 key={v.id}
                 id={v.id}

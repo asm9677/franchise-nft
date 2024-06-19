@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuCard from "../components/Menu/MenuCard";
 import menu from "../lib/menu.json";
 
-// import { useOutletContext } from "react-router-dom";
-
 function MenuDetail() {
-  //   const { signer, provider, setSigner } = useOutletContext<OutletContext>();
-
   const [tab, setTab] = useState(1);
 
   return (

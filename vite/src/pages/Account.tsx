@@ -12,7 +12,6 @@ function Account() {
   const [account, setAccount] = useState<string>();
 
   useEffect(() => {
-    // console.log(address);
     if (!address) {
       if (!signer) {
         navigate("/");
@@ -25,10 +24,6 @@ function Account() {
     }
     if (!provider) return;
   }, []);
-
-  useEffect(() => {
-    // console.log(account);
-  }, [account]);
 
   const [tab, setTab] = useState(0);
   return (

@@ -14,7 +14,7 @@ interface MenuCardProps {
 }
 
 const MenuCard: FC<MenuCardProps> = ({ id, src, name, type }) => {
-  const { orderContract, signer, notify, addCart, cartList, navigate } =
+  const { orderContract, signer, notify, addCart } =
     useOutletContext<OutletContext>();
   const [menu, setMenu] = useState<Menu>();
   const [isHover, setIsHover] = useState(false);

@@ -1,8 +1,7 @@
 import { Contract } from "ethers";
-import { BigNumberish } from "ethers";
 import { JsonRpcSigner, formatEther } from "ethers";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { MdClose, MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogout } from "react-icons/md";
 
 import store from "../lib/address.json";
 

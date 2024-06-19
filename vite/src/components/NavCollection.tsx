@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import {
   MdKeyboardArrowDown,
@@ -25,8 +25,6 @@ const NavCollection: FC<NavCollectionProps> = ({
   menuOpen,
   setMenuOpen,
 }) => {
-  //   const { signer, provider, setSigner } = useOutletContext<OutletContext>();
-
   return (
     <div className="h-[72px] flex items-center">
       <button

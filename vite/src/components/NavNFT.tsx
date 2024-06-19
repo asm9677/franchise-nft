@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
 interface NavNFTProps {
   tab: number;
@@ -6,8 +6,6 @@ interface NavNFTProps {
 }
 
 const NavNFT: FC<NavNFTProps> = ({ tab, setTab }) => {
-  //   const { signer, provider, setSigner } = useOutletContext<OutletContext>();
-
   return (
     <div className="w-full flex  border-b border-[#121212]/[0.08] z-40">
       <ul className="flex gap-2  py-6 w-full">

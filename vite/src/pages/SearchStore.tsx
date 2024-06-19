@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 import { getDiffDistance } from "../lib/utils";
 
 const Menu: FC = () => {
-  const { myLatitude, setMyLatitude, myLongitude, setMyLongitude, navigate } =
+  const { myLatitude, myLongitude, navigate } =
     useOutletContext<OutletContext>();
   const [stores, setStores] = useState<Address[]>(address);
   const [isSorted, setIsSorted] = useState<boolean>(true);

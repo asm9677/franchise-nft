@@ -1,15 +1,9 @@
 import { JsonRpcSigner } from "ethers";
 import { BrowserProvider } from "ethers";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { CiLocationOn } from "react-icons/ci";
 import { FaLocationArrow } from "react-icons/fa";
-import {
-  MdOutlineAccountCircle,
-  MdOutlineLocationOn,
-  MdOutlineWallet,
-} from "react-icons/md";
+import { MdOutlineAccountCircle, MdOutlineWallet } from "react-icons/md";
 import { SlBasket } from "react-icons/sl";
-import { useNavigate, useOutletContext } from "react-router-dom";
 import WalletMenu from "../WalletMenu";
 import { Contract } from "ethers";
 

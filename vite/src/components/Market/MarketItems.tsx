@@ -1,11 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import MarketCard from "./MarketCard";
 import NavCollection from "../NavCollection";
 import MarketItemMenu from "./MarketItemMenu";
 
 import store from "../../lib/address.json";
-import { Contract } from "ethers";
 import { useOutletContext } from "react-router-dom";
 import Modal from "../Account/Modal";
 

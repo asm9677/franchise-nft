@@ -28,8 +28,6 @@ const App: FC = () => {
             <Route path="/account/:address" element={<Account />}></Route>
           </Route>
         </Route>
-
-        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>
   );

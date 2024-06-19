@@ -1,12 +1,6 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import {
-  MdKeyboardArrowDown,
-  MdMenu,
-  MdOutlineAutoAwesomeMosaic,
-  MdOutlineGridOn,
-  MdOutlineWindow,
-} from "react-icons/md";
+import { MdKeyboardArrowDown, MdMenu } from "react-icons/md";
 
 interface NavHistoryProps {
   sortOpen: boolean;
@@ -14,8 +8,6 @@ interface NavHistoryProps {
 }
 
 const NavHistory: FC<NavHistoryProps> = ({ sortOpen, setSortOpen }) => {
-  //   const { signer, provider, setSigner } = useOutletContext<OutletContext>();
-
   return (
     <div className="h-[72px] flex items-center">
       <button className="p-3 rounded-[12px] bg-[#F5F5F5] hover:bg-[#ECECEC] mr-4 ml-2">

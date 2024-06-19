@@ -27,7 +27,7 @@ interface Reward {
 }
 
 const Home: FC = () => {
-  const { provider, nftContract, marketContract, orderContract } =
+  const { nftContract, marketContract, orderContract } =
     useOutletContext<OutletContext>();
 
   const [listingIds, setListingIds] = useState<number[]>([]);

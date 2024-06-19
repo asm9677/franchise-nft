@@ -9,7 +9,6 @@ interface LocationTabProps {
 
   checkList: boolean[];
   setCheckList: Dispatch<SetStateAction<boolean[]>>;
-  checkedCount: number;
   setCheckedCount: Dispatch<SetStateAction<number>>;
 }
 
@@ -18,7 +17,6 @@ const LocationTab: FC<LocationTabProps> = ({
   setLocationOpen,
   checkList,
   setCheckList,
-  checkedCount,
   setCheckedCount,
 }) => {
   const [value, setValue] = useState<string>("");

@@ -61,7 +61,6 @@ const MarketHistory: FC<MarketHistoryProps> = ({
           {listingIds.map((v, i) => (
             <MarketListCard
               key={i}
-              nftContract={nftContract}
               marketContract={marketContract}
               id={v}
               account={account}

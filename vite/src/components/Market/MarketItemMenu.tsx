@@ -63,7 +63,6 @@ const MarketItemMenu: FC<MarketItemMenuProps> = ({
         setLocationOpen={setLocationOpen}
         checkList={checkList}
         setCheckList={setCheckList}
-        checkedCount={checkedCount}
         setCheckedCount={setCheckedCount}
       />
     </div>

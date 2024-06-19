@@ -1,13 +1,6 @@
-import { BigNumberish } from "ethers";
 import { formatUnits } from "ethers";
 import { FC, useEffect, useState } from "react";
-import { IoMdTrash } from "react-icons/io";
-import {
-  MdClose,
-  MdOutlineAdd,
-  MdOutlineRemove,
-  MdOutlineShoppingCart,
-} from "react-icons/md";
+import { MdClose, MdOutlineAdd, MdOutlineRemove } from "react-icons/md";
 import { useOutletContext } from "react-router-dom";
 
 interface CartCardProps {
@@ -20,7 +13,6 @@ interface CartCardProps {
 const CartCard: FC<CartCardProps> = ({ id, src, name, amount }) => {
   const { changeCart, removeCart, orderContract } =
     useOutletContext<OutletContext>();
-  const [isHover, setIsHover] = useState(false);
   const [purchasesCount, _setPurchasesCount] = useState<string>(String(amount));
   const [price, setPrice] = useState(0n);
 
@@ -45,11 +37,7 @@ const CartCard: FC<CartCardProps> = ({ id, src, name, amount }) => {
   };
 
   return (
-    <div
-      className=" px-16 py-10 overflow-hidden border border-[#E2E2E2]  rounded-lg cursor-pointer flex gap-4 text-[14px] font-semibold text-[#121212] items-center justify-between relative"
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
+    <div className=" px-16 py-10 overflow-hidden border border-[#E2E2E2]  rounded-lg cursor-pointer flex gap-4 text-[14px] font-semibold text-[#121212] items-center justify-between relative">
       <div className="absolute top-3 right-3 text-[#545454]/[0.6]">
         <button onClick={() => removeCart(id)}>
           <MdClose size={24} />
