@@ -6,16 +6,11 @@ import NavHistory from "../NavHistory";
 import { Contract } from "ethers";
 
 interface MarketHistoryProps {
-  nftContract: Contract | null;
   marketContract: Contract | null;
   account?: string | undefined;
 }
 
-const MarketHistory: FC<MarketHistoryProps> = ({
-  nftContract,
-  marketContract,
-  account,
-}) => {
+const MarketHistory: FC<MarketHistoryProps> = ({ marketContract, account }) => {
   const [sortOpen, setSortOpen] = useState(false);
   const [eventOpen, setEventOpen] = useState(false);
   const [listingIds, setListingIds] = useState<number[]>([]);

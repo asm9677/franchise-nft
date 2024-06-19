@@ -10,10 +10,9 @@ interface MenuCardProps {
   id: number;
   src: string;
   name: string;
-  type?: number;
 }
 
-const MenuCard: FC<MenuCardProps> = ({ id, src, name, type }) => {
+const MenuCard: FC<MenuCardProps> = ({ id, src, name }) => {
   const { orderContract, signer, notify, addCart } =
     useOutletContext<OutletContext>();
   const [menu, setMenu] = useState<Menu>();

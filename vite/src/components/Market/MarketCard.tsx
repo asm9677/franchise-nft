@@ -55,14 +55,8 @@ const MarketCard: FC<MarketCardProps> = ({
     if (!nftContract) return;
     console.log(account);
     if (account === undefined || account === "") return;
-    // console.log(account);
-    // console.log(getAddress(account), market.id);
     nftContract.balanceOf(getAddress(account), market.id).then(setBalance);
   }, [nftContract, account]);
-
-  useEffect(() => {
-    // console.log(balance, market.id, account && getAddress(account), account);
-  }, [balance]);
 
   if (balance == 0n && account != undefined) return;
 

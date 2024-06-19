@@ -1,16 +1,9 @@
-import {
-  JsonRpcSigner,
-  ethers,
-  formatEther,
-  parseEther,
-  parseUnits,
-} from "ethers";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { ethers, formatEther, parseEther, parseUnits } from "ethers";
+import { FC, useEffect, useState } from "react";
 import uniswapAbi from "../../contracts/uniswapV2.json";
 import ERC20Abi from "../../contracts/ERC20.json";
 
 import { Contract } from "ethers";
-import { BrowserProvider } from "ethers";
 import {
   ethAddress,
   routerAddress,

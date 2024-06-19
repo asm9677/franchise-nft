@@ -5,7 +5,7 @@ import MarketHistory from "../components/Market/MarketHistory";
 import MarketItems from "../components/Market/MarketItems";
 
 function Account() {
-  const { signer, provider, navigate, nftContract, marketContract } =
+  const { signer, provider, navigate, marketContract } =
     useOutletContext<OutletContext>();
 
   const { address } = useParams();
@@ -32,11 +32,7 @@ function Account() {
 
       {tab == 0 && <MarketItems account={account} />}
       {tab == 1 && (
-        <MarketHistory
-          marketContract={marketContract}
-          nftContract={nftContract}
-          account={account}
-        />
+        <MarketHistory marketContract={marketContract} account={account} />
       )}
     </section>
   );
