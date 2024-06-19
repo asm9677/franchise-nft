@@ -45,9 +45,10 @@ export function getDiffDistance(p1: pointer, p2: pointer) {
 import axios from "axios";
 
 export async function getKakaoMapAddress(lat: number, lng: number) {
+  console.log(import.meta.env);
   const url = `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}`;
   const headers = {
-    Authorization: `KakaoAK ${"9654f3f04595554c597a09a085a90fd0"}`,
+    Authorization: `KakaoAK ${import.meta.env.VITE_KAKAO_KEY}`,
   };
 
   try {
