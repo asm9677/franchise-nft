@@ -12,7 +12,6 @@ interface MarketItemMenuProps {
 const MarketItemMenu: FC<MarketItemMenuProps> = ({
   checkList,
   setCheckList,
-  checkedCount,
   setCheckedCount,
 }) => {
   const [priceOpen, setPriceOpen] = useState<boolean>(false);
