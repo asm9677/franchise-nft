@@ -29,7 +29,7 @@ const MarketListCard: FC<MarketListCardProps> = ({
   useEffect(() => {
     console.log(account, item);
     if (account === undefined || item === undefined) return;
-
+    console.log(item.tokenId);
     setIsShow(
       !(
         account.toLowerCase() !== item.seller.toLocaleLowerCase() &&
@@ -52,10 +52,14 @@ const MarketListCard: FC<MarketListCardProps> = ({
       </div>
 
       <div className="flex items-center px-[2px] flex-[2]">
-        <img src="/nft.png" className="w-12 h-12 object-cover rounded-[10px]" />
+        <img
+          src={`/nft/${item?.tokenId}.png`}
+          className="w-12 h-12 object-cover rounded-[10px]"
+        />
         <div className="flex flex-col justify-center items-center ml-2 truncate">
           <span className="text-[16px] font-semibold text-[#121212] w-full ">
-            {item && store[item.tokenId].title} # {item?.tokenId.toString()}
+            {item && store[Number(item.tokenId) - 1].title} #{" "}
+            {item?.tokenId.toString()}
           </span>
           <span className="text-[12px] font-normal text-[#121212] w-full text-start">
             Pizza

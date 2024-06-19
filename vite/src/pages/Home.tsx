@@ -63,18 +63,18 @@ const Home: FC = () => {
   const getLatestListings = () => {
     const listings = Array.from({ length: 26 }).map((_, i) => ({
       tokenId: i,
-      timestamp: Number.MAX_SAFE_INTEGER,
+      timestamp: 0,
     }));
 
     listingItems.forEach(
       (v) =>
         (listings[v.tokenId].timestamp =
-          listings[v.tokenId].timestamp > Number(v.timestamp)
+          listings[v.tokenId].timestamp < Number(v.timestamp)
             ? Number(v.timestamp)
             : listings[v.tokenId].timestamp)
     );
 
-    listings.sort((a, b) => a.timestamp - b.timestamp);
+    listings.sort((a, b) => b.timestamp - a.timestamp);
     return listings.filter((v) => v.tokenId != 0).slice(0, 10);
   };
 

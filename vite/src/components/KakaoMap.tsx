@@ -57,7 +57,18 @@ const KakaoMap: FC<KakaoMapProps> = ({ lat, lng, markers, w, h }) => {
 
       // 마커가 지도 위에 표시되도록 설정합니다
       marker.setMap(m);
-      var content = `<div style="width:150px; height:100px; display:flex; justify-content:center; align-items:center;">${v.title}</div>`;
+      var content =
+        '<div class="overlaybox">' +
+        `    <div class="boxtitle">${v.title}</div>` +
+        "    <ul>" +
+        '        <li class="up">' +
+        `            <span class="title">${v.tel}</span>` +
+        "        </li>" +
+        "        <li>" +
+        `            <span class="title">${v.address}</span>` +
+        "        </li>" +
+        "    </ul>" +
+        "</div>";
 
       // 인포윈도우를 생성합니다
       var infowindow = new kakao.maps.InfoWindow({

@@ -76,7 +76,7 @@ const MarketCard: FC<MarketCardProps> = ({
     >
       <div className=" overflow-hidden relative">
         <img
-          src="/nft.png"
+          src={`/nft/${market.id}.png`}
           className={`${
             isHover && "scale-110 duration-200"
           }   w-full h-full object-cover inset-0`}

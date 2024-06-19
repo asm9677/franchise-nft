@@ -136,7 +136,10 @@ const WalletMenu: FC<WalletMenuProps> = ({
                 className="flex items-start justify-between gap-3 hover:bg-default-color/15 p-3 rounded-[12px] "
               >
                 <div className="flex items-center gap-3">
-                  <img src="/nft.png" className="w-12 rounded-[12px]" />
+                  <img
+                    src={`/nft/${i + 1}.png`}
+                    className="w-12 rounded-[12px]"
+                  />
                   <div className="flex flex-col items-start">
                     <span className="text-[18px] text-[#121212] font-semibold">
                       {store[i].title} #{i + 1}

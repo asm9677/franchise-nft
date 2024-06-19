@@ -45,7 +45,7 @@ const AccountCard: FC<AccountCardProps> = ({
           x{balance.toString()}
         </div>
         <img
-          src="/nft.png"
+          src={`/nft/${nft.id}.png`}
           className={`${
             isHover && "scale-110 "
           }   w-full h-full object-cover inset-0 duration-200 z-10`}

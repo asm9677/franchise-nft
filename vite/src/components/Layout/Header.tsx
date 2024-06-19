@@ -82,6 +82,10 @@ const Header: FC<HeaderProps> = ({
         )}`
       );
     }
+
+    if (!signer) {
+      if (localStorage.getItem("isLogin") == "0") setIsLogin(false);
+    }
   }, [signer]);
 
   const checkLocationPermissions = () => {

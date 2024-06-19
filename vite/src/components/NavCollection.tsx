@@ -47,7 +47,7 @@ const NavCollection: FC<NavCollectionProps> = ({
         onClick={() => setSortOpen(!sortOpen)}
         onBlur={() => setSortOpen(false)}
       >
-        <span>Price low to high</span>
+        <span>Oldest</span>
         <MdKeyboardArrowDown
           size={24}
           className={`duration-200 ${sortOpen && "rotate-180"}`}

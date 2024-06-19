@@ -40,7 +40,7 @@ const HighestReward: FC<HighestRewardProps> = ({
   return (
     <div className="flex flex-col w-full mt-16">
       <h1 className="px-16 pb-4 text-[28px] text-[#121212] font-semibold ">
-        최근 보상이 제일 많은 NFT
+        최근 보상이 제일 많은 NFT 보기
       </h1>
       <div className="relative w-full overflow-x-hidden">
         <button

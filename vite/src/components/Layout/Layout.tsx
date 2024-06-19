@@ -96,7 +96,7 @@ const Layout: FC = () => {
 
   const notify = (text: string) => {
     toast.success(text, {
-      position: "bottom-right",
+      position: "bottom-left",
       autoClose: 3000,
       icon: <MdError size={24} />,
       hideProgressBar: false,

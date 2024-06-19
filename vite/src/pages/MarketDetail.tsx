@@ -23,7 +23,7 @@ interface ChartData {
 }
 
 const MarketDetail: FC = () => {
-  const { navigate, marketContract, orderContract, notify } =
+  const { navigate, marketContract, orderContract, notify, signer } =
     useOutletContext<OutletContext>();
   const { tokenId } = useParams();
   const [purchasesCount, _setPurchasesCount] = useState<string>("0");
@@ -199,7 +199,10 @@ const MarketDetail: FC = () => {
       .then((tx: any) =>
         tx
           .wait()
-          .then(() => notify("구매에 성공했어요!"))
+          .then(() => {
+            notify("구매에 성공했어요!");
+            navigate(`/account/${signer.address}`);
+          })
           .finally(() => setIsLoading(false))
       )
       .catch((error: any) => {
@@ -213,7 +216,7 @@ const MarketDetail: FC = () => {
       <div className="flex gap-5">
         <div className="flex flex-col gap-6 w-[43%]">
           <div className="flex items-center justify-center w-full  border border-[#E2E2E2] rounded-[10px] overflow-hidden">
-            <img src="/nft.png" className="object-cover w-full" />
+            <img src={`/nft/${tokenId}.png`} className="object-cover w-full" />
           </div>
           <div className="flex flex-col justify-center w-full border border-[#E2E2E2] rounded-[10px] overflow-hidden text-[#121212]">
             <button className="flex justify-between p-5 min-h-[44px] border-b border-[#E2E2E2]">

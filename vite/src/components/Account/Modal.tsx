@@ -20,7 +20,7 @@ const Modal: FC<ModalProps> = ({
 }) => {
   // if (!isOpen) return;
 
-  const { signer } = useOutletContext<OutletContext>();
+  const { signer, navigate, notify } = useOutletContext<OutletContext>();
   const [purchasesCount, _setPurchasesCount] = useState<string>("1");
   const [value, _setValue] = useState<string>("0");
   const [balance, setBalance] = useState<BigInt>();
@@ -78,7 +78,10 @@ const Modal: FC<ModalProps> = ({
         .then((tx) =>
           tx
             .wait()
-            .then()
+            .then(() => {
+              notify("등록되었습니다!");
+              navigate(`/market/${nft.id}`);
+            })
             .finally(() => {
               setIsLoading(false);
               onClose();
@@ -110,7 +113,10 @@ const Modal: FC<ModalProps> = ({
         <div className="px-6 py-4">
           <div className="px-4 py-2 flex gap-7 border-b border-[#ECECEC] pb-6">
             <div className="w-fit border border-[#E2E2E2] rounded-[10px]">
-              <img src="/nft.png" className="w-[72px] object-contain" />
+              <img
+                src={`/nft/${nft.id}.png`}
+                className="w-[72px] object-contain"
+              />
             </div>
             <div className="flex flex-col grow justify-center">
               <div className="text-[16px] text-[#121212] font-semibold">

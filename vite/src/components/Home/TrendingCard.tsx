@@ -18,7 +18,7 @@ const TrendingCard: FC<TrendingCardProps> = ({ id, rank, price }) => {
     >
       <div className="flex-[1] text-start">{rank}</div>
       <div className="flex-[6] flex items-center">
-        <img src="/nft.png" className="rounded-[12px] w-[70px]" />
+        <img src={`/nft/${id}.png`} className="rounded-[12px] w-[70px]" />
         <span className="ml-6">
           {store[id - 1].title} #{id}{" "}
         </span>
