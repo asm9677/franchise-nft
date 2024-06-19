@@ -87,7 +87,7 @@ const MarketListCard: FC<MarketListCardProps> = ({
           className="min-w-[76px] text-end text-blue-600 flex-[2]"
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/account/${item?.seller}`);
+            navigate(`/account/${item?.buyer}`);
           }}
         >
           {item?.buyer.substring(2, 8)}

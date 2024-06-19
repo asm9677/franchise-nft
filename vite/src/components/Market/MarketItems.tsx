@@ -31,11 +31,11 @@ const MarketItems: FC<MarketItemProps> = ({ account }) => {
   const [soldItems, setSoldItems] = useState<Item[]>([]);
   const [listingItems, setListingItems] = useState<Item[]>([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<NftData>({
     name: "",
     id: 0,
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
