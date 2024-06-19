@@ -10,6 +10,8 @@ import {
 } from "react-icons/md";
 import { SlBasket } from "react-icons/sl";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import WalletMenu from "../WalletMenu";
+import { Contract } from "ethers";
 
 interface HeaderProps {
   signer: JsonRpcSigner | undefined;
@@ -20,6 +22,9 @@ interface HeaderProps {
   navigate: (url: string) => void;
   notify: (text: string) => void;
   homeAddress: string;
+  tokenContract: Contract | undefined;
+  nftContract: Contract | undefined;
+  orderContract: Contract | undefined;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -31,9 +36,14 @@ const Header: FC<HeaderProps> = ({
   navigate,
   notify,
   homeAddress,
+  tokenContract,
+  nftContract,
+  orderContract,
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [buttonMessage, setButtonMessage] = useState("Login");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleScroll = () => {
     setScrolled(window.scrollY > 0);
@@ -49,6 +59,18 @@ const Header: FC<HeaderProps> = ({
     if (!window.ethereum) return;
     setProvider(new BrowserProvider(window.ethereum));
   }, []);
+
+  useEffect(() => {
+    console.log(isLogin, localStorage.getItem("isLogin"));
+    if (isLogin == false) {
+      if (localStorage.getItem("isLogin") == "1") setIsLogin(true);
+    } else {
+      if (provider) {
+        localStorage.setItem("isLogin", "1");
+        provider?.getSigner().then(setSigner);
+      }
+    }
+  }, [isLogin, provider]);
 
   useEffect(() => {
     if (!signer) {
@@ -70,6 +92,7 @@ const Header: FC<HeaderProps> = ({
           notify("위치접근허용을 승인해주세요!");
         } else {
           navigate("/search");
+          sessionStorage.clear();
         }
       });
   };
@@ -80,6 +103,7 @@ const Header: FC<HeaderProps> = ({
         className={`header bg-transparent w-full fixed top-0 left-0 ${
           scrolled && "header-scrolled font-bold "
         } duration-150 z-50 bg-white border-b border-[#121212]/[0.08]`}
+        onClick={() => setIsMenuOpen(false)}
       >
         <div
           className={`flex justify-between items-center h-[100px] text-[20px] font-[400] px-16 mx-auto  `}
@@ -120,15 +144,30 @@ const Header: FC<HeaderProps> = ({
                 {homeAddress}
               </span>
             </button>
-            <button
-              className="flex items-center gap-3 rounded-[12px] px-3 bg-default-color/10 hover:bg-default-color/15"
-              onClick={() => !signer && provider?.getSigner().then(setSigner)}
-            >
-              <MdOutlineWallet size={24} />
-              <span className="text-[16px] h-6 font-[900] leading-3 flex items-center">
-                {buttonMessage}
-              </span>
-            </button>
+            <div className="flex relative ">
+              <button
+                className="flex items-center gap-3 rounded-[12px] px-3 bg-default-color/10 hover:bg-default-color/15 "
+                onClick={(e) => {
+                  e.stopPropagation();
+                  isLogin ? setIsMenuOpen(!isMenuOpen) : setIsLogin(true);
+                }}
+              >
+                <MdOutlineWallet size={24} className="min-w-6 min-h-6" />
+                <span className="text-[16px] h-6 font-[900] leading-3 flex items-center">
+                  {buttonMessage}
+                </span>
+              </button>
+              <WalletMenu
+                isOpen={isMenuOpen}
+                setIsOpen={setIsMenuOpen}
+                signer={signer}
+                nftContract={nftContract}
+                tokenContract={tokenContract}
+                orderContract={orderContract}
+                setSigner={setSigner}
+              />
+            </div>
+
             <button
               className="bg-default-color/10 hover:bg-default-color/15 rounded-[12px] p-3 relative"
               onClick={() => navigate("/cart")}

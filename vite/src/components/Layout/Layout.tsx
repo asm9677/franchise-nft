@@ -32,9 +32,9 @@ const Layout: FC = () => {
   const [myLongitude, setMyLongitude] = useState<number>(126.9789309);
 
   const [marketContract, setMarketContract] = useState<Contract | null>();
-  const [nftContract, setNftContract] = useState<Contract | null>();
-  const [orderContract, setOrderContract] = useState<Contract | null>();
-  const [tokenContract, setTokenContract] = useState<Contract | null>();
+  const [nftContract, setNftContract] = useState<Contract>();
+  const [orderContract, setOrderContract] = useState<Contract>();
+  const [tokenContract, setTokenContract] = useState<Contract>();
   const [uniswapContract, setUniswapContract] = useState<Contract | null>();
 
   const [homeAddress, setHomeAddress] =
@@ -156,6 +156,9 @@ const Layout: FC = () => {
         navigate={navigate}
         notify={notify}
         homeAddress={homeAddress}
+        tokenContract={tokenContract}
+        nftContract={nftContract}
+        orderContract={orderContract}
       />
       <div className="">
         <Outlet
