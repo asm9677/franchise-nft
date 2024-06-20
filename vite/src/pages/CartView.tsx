@@ -94,7 +94,7 @@ function CartView() {
         )
         .catch((error: any) => {
           setIsLoading(false);
-          notify("에러가 발생했어요. 다시시도해주세요!");
+          notify(error.shortMessage);
         });
     } catch (error) {
       console.error(error);
