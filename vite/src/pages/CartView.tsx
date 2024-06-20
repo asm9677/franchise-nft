@@ -78,7 +78,7 @@ function CartView() {
 
       const menuIds: number[] = cartList.map((v) => v.id);
       const amounts: number[] = cartList.map((v) => v.amount);
-      console.log(menuIds, amounts, tokenId);
+
       orderContract
         .orders(menuIds, amounts, tokenId)
         .then((tx: any) =>
@@ -94,7 +94,6 @@ function CartView() {
         )
         .catch((error: any) => {
           setIsLoading(false);
-          console.log(error);
           notify("에러가 발생했어요. 다시시도해주세요!");
         });
     } catch (error) {

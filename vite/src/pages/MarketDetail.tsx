@@ -109,7 +109,6 @@ const MarketDetail: FC = () => {
         { date: "Apr 19", value: 0.001 },
         { date: "May 19", value: 0.0007 },
         ...res.map((v: any) => {
-          console.log(new Date(Number(v.timestamp) * 1000));
           return {
             date: new Date(Number(v.timestamp) * 1000).toLocaleString("en-us", {
               month: "short",
@@ -121,10 +120,6 @@ const MarketDetail: FC = () => {
       ]);
     });
   }, [orderContract]);
-
-  useEffect(() => {
-    console.log(rewardHistoryData, "rewardHistoryData");
-  }, [rewardHistoryData]);
 
   useEffect(() => {
     if (!marketContract) return;
@@ -191,7 +186,6 @@ const MarketDetail: FC = () => {
 
   const purchase = () => {
     if (!marketContract || maxBuyCount === 0) return;
-    console.log({ value: maxValue }, buyList);
     setIsLoading(true);
 
     marketContract

@@ -39,7 +39,17 @@ const MarketCard: FC<MarketCardProps> = ({
   }, [soldItems]);
 
   useEffect(() => {
-    const listing = listingItems.filter((v) => Number(v.tokenId) === market.id);
+    const listing = listingItems
+      .filter((v) => Number(v.tokenId) === market.id)
+      .sort((a, b) => {
+        if (a.price / BigInt(a.amount) > b.price / BigInt(b.amount)) {
+          return 1;
+        } else if (a.price / BigInt(a.amount) < b.price / BigInt(b.amount)) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
 
     if (listing.length) setCurPrice(listing[0].price / listing[0].amount);
   }, [listingItems]);
@@ -53,7 +63,6 @@ const MarketCard: FC<MarketCardProps> = ({
 
   useEffect(() => {
     if (!nftContract) return;
-    console.log(account);
     if (account === undefined || account === "") return;
     nftContract.balanceOf(getAddress(account), market.id).then(setBalance);
   }, [nftContract, account]);

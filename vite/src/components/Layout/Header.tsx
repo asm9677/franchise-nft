@@ -55,7 +55,6 @@ const Header: FC<HeaderProps> = ({
   }, []);
 
   useEffect(() => {
-    console.log(isLogin, localStorage.getItem("isLogin"));
     if (isLogin == false) {
       if (localStorage.getItem("isLogin") == "1") setIsLogin(true);
     } else {

@@ -144,8 +144,9 @@ const Home: FC = () => {
   return (
     <div className="mt-[100px] w-full">
       <Slider dots={false} slidesToShow={1} arrows={false}>
-        {banners.map((v) => (
+        {banners.map((v, i) => (
           <BannerCard
+            key={i}
             src={v.src}
             color={v.color}
             title={v.title}

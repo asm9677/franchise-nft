@@ -25,9 +25,8 @@ const MarketListCard: FC<MarketListCardProps> = ({
   }, [marketContract]);
 
   useEffect(() => {
-    console.log(account, item);
     if (account === undefined || item === undefined) return;
-    console.log(item.tokenId);
+
     setIsShow(
       !(
         account.toLowerCase() !== item.seller.toLocaleLowerCase() &&

@@ -83,8 +83,6 @@ const SwapWidget: FC = () => {
   };
 
   const onClickButton = () => {
-    console.log(buttonType);
-
     let tx = null;
     switch (buttonType) {
       case 0:
