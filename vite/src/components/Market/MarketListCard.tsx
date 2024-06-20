@@ -39,7 +39,7 @@ const MarketListCard: FC<MarketListCardProps> = ({
   return (
     <button
       className="flex items-center justify-between w-full rounded-[8px] border-b border-[#E2E2E2] h-[82px] p-4 hover:bg-[#F5F5F5]"
-      onClick={() => navigate(`/market/${id}`)}
+      onClick={() => navigate(`/market/${item?.tokenId}`)}
     >
       <div className="flex items-center px-[2px] flex-[1]">
         <MdOutlineSell size={18} />
